@@ -22,6 +22,9 @@
 		FE06D5E41AADDA3C0054F22D /* CDVScannerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FE06D5E31AADDA3C0054F22D /* CDVScannerPlugin.m */; };
 		FE06D63A1AADE56A0054F22D /* RABarcodeScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FE06D6391AADE56A0054F22D /* RABarcodeScanner.m */; };
 		FE06D63C1AADE6390054F22D /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE06D63B1AADE6390054F22D /* ExternalAccessory.framework */; };
+		FE06D6451AAE06EC0054F22D /* scanner.js in Resources */ = {isa = PBXBuildFile; fileRef = FE06D6421AAE06EC0054F22D /* scanner.js */; };
+		FE06D6461AAE06EC0054F22D /* plugin.xml in Resources */ = {isa = PBXBuildFile; fileRef = FE06D6431AAE06EC0054F22D /* plugin.xml */; };
+		FE06D6471AAE06EC0054F22D /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = FE06D6441AAE06EC0054F22D /* package.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +76,9 @@
 		FE06D6391AADE56A0054F22D /* RABarcodeScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RABarcodeScanner.m; sourceTree = "<group>"; };
 		FE06D63B1AADE6390054F22D /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		FE06D63D1AADE68F0054F22D /* BarcodeScanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BarcodeScanner.entitlements; sourceTree = "<group>"; };
+		FE06D6421AAE06EC0054F22D /* scanner.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = scanner.js; sourceTree = "<group>"; };
+		FE06D6431AAE06EC0054F22D /* plugin.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = plugin.xml; sourceTree = "<group>"; };
+		FE06D6441AAE06EC0054F22D /* package.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,20 +134,10 @@
 		FE06D5951AADD88F0054F22D /* BarcodeScanner */ = {
 			isa = PBXGroup;
 			children = (
-				FE06D63D1AADE68F0054F22D /* BarcodeScanner.entitlements */,
+				FE06D6411AAE060A0054F22D /* Scanner */,
+				FE06D6401AAE05E70054F22D /* Plugin */,
 				FE06D5BC1AADD9F40054F22D /* Libs */,
-				FE06D59A1AADD88F0054F22D /* AppDelegate.h */,
-				FE06D59B1AADD88F0054F22D /* AppDelegate.m */,
-				FE06D59D1AADD88F0054F22D /* ViewController.h */,
-				FE06D59E1AADD88F0054F22D /* ViewController.m */,
-				FE06D5A01AADD88F0054F22D /* Main.storyboard */,
-				FE06D5A31AADD88F0054F22D /* Images.xcassets */,
-				FE06D5A51AADD88F0054F22D /* LaunchScreen.xib */,
 				FE06D5961AADD88F0054F22D /* Supporting Files */,
-				FE06D5E21AADDA3C0054F22D /* CDVScannerPlugin.h */,
-				FE06D5E31AADDA3C0054F22D /* CDVScannerPlugin.m */,
-				FE06D6381AADE56A0054F22D /* RABarcodeScanner.h */,
-				FE06D6391AADE56A0054F22D /* RABarcodeScanner.m */,
 			);
 			path = BarcodeScanner;
 			sourceTree = "<group>";
@@ -149,6 +145,14 @@
 		FE06D5961AADD88F0054F22D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FE06D59A1AADD88F0054F22D /* AppDelegate.h */,
+				FE06D59B1AADD88F0054F22D /* AppDelegate.m */,
+				FE06D59D1AADD88F0054F22D /* ViewController.h */,
+				FE06D59E1AADD88F0054F22D /* ViewController.m */,
+				FE06D5A01AADD88F0054F22D /* Main.storyboard */,
+				FE06D5A31AADD88F0054F22D /* Images.xcassets */,
+				FE06D5A51AADD88F0054F22D /* LaunchScreen.xib */,
+				FE06D63D1AADE68F0054F22D /* BarcodeScanner.entitlements */,
 				FE06D5971AADD88F0054F22D /* Info.plist */,
 				FE06D5981AADD88F0054F22D /* main.m */,
 			);
@@ -215,6 +219,27 @@
 			path = lib;
 			sourceTree = "<group>";
 		};
+		FE06D6401AAE05E70054F22D /* Plugin */ = {
+			isa = PBXGroup;
+			children = (
+				FE06D6421AAE06EC0054F22D /* scanner.js */,
+				FE06D6431AAE06EC0054F22D /* plugin.xml */,
+				FE06D6441AAE06EC0054F22D /* package.json */,
+				FE06D5E21AADDA3C0054F22D /* CDVScannerPlugin.h */,
+				FE06D5E31AADDA3C0054F22D /* CDVScannerPlugin.m */,
+			);
+			name = Plugin;
+			sourceTree = "<group>";
+		};
+		FE06D6411AAE060A0054F22D /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				FE06D6381AADE56A0054F22D /* RABarcodeScanner.h */,
+				FE06D6391AADE56A0054F22D /* RABarcodeScanner.m */,
+			);
+			name = Scanner;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -279,6 +304,9 @@
 				FE06D5E11AADD9F50054F22D /* softScanBeep.wav in Resources */,
 				FE06D5A71AADD88F0054F22D /* LaunchScreen.xib in Resources */,
 				FE06D5A41AADD88F0054F22D /* Images.xcassets in Resources */,
+				FE06D6461AAE06EC0054F22D /* plugin.xml in Resources */,
+				FE06D6471AAE06EC0054F22D /* package.json in Resources */,
+				FE06D6451AAE06EC0054F22D /* scanner.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

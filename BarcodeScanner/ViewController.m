@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "RABarcodeScanner.h"
 
-@interface ViewController ()
+@interface ViewController () <RABarcodeScannerDelegate>
+
+@property (nonatomic) RABarcodeScanner *scanner;
 
 @end
 
@@ -16,12 +19,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    self.scanner = [[RABarcodeScanner alloc] init];
+    self.scanner.delegate = self;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)scannerFinishedWithResult:(NSDictionary *)result {
+    NSLog(@"scanningFinishedWithResult: %@", result);
+}
+
+- (void)deviceConnectedWithInfo:(NSDictionary *)deviceInfo {
+    NSLog(@"deviceConnectedWithInfo: %@", deviceInfo);
+}
+
+- (void)deviceDisconnectedWithInfo:(NSDictionary *)deviceInfo {
+    NSLog(@"deviceDisconnectedWithInfo: %@", deviceInfo);
+}
+
+- (void)scannerFinishedWithError:(NSError *)error {
+    NSLog(@"scannerFinishedWithError: %@", error);
 }
 
 @end

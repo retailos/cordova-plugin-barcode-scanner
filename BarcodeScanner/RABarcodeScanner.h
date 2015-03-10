@@ -11,11 +11,13 @@
 extern NSString * const RAScannerErrorDomain;
 extern NSInteger const RAScannerErrorCode;
 
+typedef void (^RACompletionBlock)(NSString *result, NSError *error);
+
 @protocol RABarcodeScannerDelegate <NSObject>
 
 - (void)deviceConnectedWithInfo:(NSDictionary *)deviceInfo;
 - (void)deviceDisconnectedWithInfo:(NSDictionary *)deviceInfo;
-- (void)scannerFinishedWithResult:(NSString *)result;
+- (void)scannerFinishedWithResult:(NSDictionary *)result;
 - (void)scannerFinishedWithError:(NSError *)error;
 
 @end

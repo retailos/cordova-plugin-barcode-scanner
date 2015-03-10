@@ -11,6 +11,6 @@
 
 @interface CDVScannerPlugin : CDVPlugin
 
-- (void)getDeviceInfo:(CDVInvokedUrlCommand *)command;
+- (void)initScanner:(CDVInvokedUrlCommand *)command;
 
 @end

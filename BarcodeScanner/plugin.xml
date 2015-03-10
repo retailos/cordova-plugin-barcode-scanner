@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="com.redant.barcodescanner"
-    version="0.3.1-dev">
+    version="0.0.1-dev">
     <name>Barcode Scanner</name>
     <description>Barcode Scanner</description>
     <license>Apache 2.0</license>

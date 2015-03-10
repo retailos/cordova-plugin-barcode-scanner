@@ -14,11 +14,9 @@
 		FE06D5A21AADD88F0054F22D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE06D5A01AADD88F0054F22D /* Main.storyboard */; };
 		FE06D5A41AADD88F0054F22D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06D5A31AADD88F0054F22D /* Images.xcassets */; };
 		FE06D5A71AADD88F0054F22D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE06D5A51AADD88F0054F22D /* LaunchScreen.xib */; };
-		FE06D5DD1AADD9F40054F22D /* Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = FE06D5BF1AADD9F40054F22D /* Debug.m */; };
 		FE06D5DE1AADD9F40054F22D /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE06D5C11AADD9F40054F22D /* DeviceInfo.m */; };
 		FE06D5DF1AADD9F40054F22D /* libScanApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE06D5D81AADD9F40054F22D /* libScanApi.a */; };
 		FE06D5E01AADD9F50054F22D /* ScanApiHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE06D5DA1AADD9F40054F22D /* ScanApiHelper.mm */; };
-		FE06D5E11AADD9F50054F22D /* softScanBeep.wav in Resources */ = {isa = PBXBuildFile; fileRef = FE06D5DC1AADD9F40054F22D /* softScanBeep.wav */; };
 		FE06D5E41AADDA3C0054F22D /* CDVScannerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = FE06D5E31AADDA3C0054F22D /* CDVScannerPlugin.m */; };
 		FE06D63A1AADE56A0054F22D /* RABarcodeScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FE06D6391AADE56A0054F22D /* RABarcodeScanner.m */; };
 		FE06D63C1AADE6390054F22D /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE06D63B1AADE6390054F22D /* ExternalAccessory.framework */; };
@@ -41,8 +39,6 @@
 		FE06D5A11AADD88F0054F22D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FE06D5A31AADD88F0054F22D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FE06D5A61AADD88F0054F22D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		FE06D5BE1AADD9F40054F22D /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
-		FE06D5BF1AADD9F40054F22D /* Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Debug.m; sourceTree = "<group>"; };
 		FE06D5C01AADD9F40054F22D /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
 		FE06D5C11AADD9F40054F22D /* DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
 		FE06D5C31AADD9F40054F22D /* BtHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtHelper.h; sourceTree = "<group>"; };
@@ -69,7 +65,6 @@
 		FE06D5D91AADD9F40054F22D /* ScanApiHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanApiHelper.h; sourceTree = "<group>"; };
 		FE06D5DA1AADD9F40054F22D /* ScanApiHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScanApiHelper.mm; sourceTree = "<group>"; };
 		FE06D5DB1AADD9F40054F22D /* ScanApiIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanApiIncludes.h; sourceTree = "<group>"; };
-		FE06D5DC1AADD9F40054F22D /* softScanBeep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = softScanBeep.wav; sourceTree = "<group>"; };
 		FE06D5E21AADDA3C0054F22D /* CDVScannerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVScannerPlugin.h; sourceTree = "<group>"; };
 		FE06D5E31AADDA3C0054F22D /* CDVScannerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVScannerPlugin.m; sourceTree = "<group>"; };
 		FE06D6381AADE56A0054F22D /* RABarcodeScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RABarcodeScanner.h; sourceTree = "<group>"; };
@@ -170,8 +165,6 @@
 		FE06D5BD1AADD9F40054F22D /* SocketMobile */ = {
 			isa = PBXGroup;
 			children = (
-				FE06D5BE1AADD9F40054F22D /* Debug.h */,
-				FE06D5BF1AADD9F40054F22D /* Debug.m */,
 				FE06D5C01AADD9F40054F22D /* DeviceInfo.h */,
 				FE06D5C11AADD9F40054F22D /* DeviceInfo.m */,
 				FE06D5C21AADD9F40054F22D /* include */,
@@ -179,7 +172,6 @@
 				FE06D5D91AADD9F40054F22D /* ScanApiHelper.h */,
 				FE06D5DA1AADD9F40054F22D /* ScanApiHelper.mm */,
 				FE06D5DB1AADD9F40054F22D /* ScanApiIncludes.h */,
-				FE06D5DC1AADD9F40054F22D /* softScanBeep.wav */,
 			);
 			path = SocketMobile;
 			sourceTree = "<group>";
@@ -301,7 +293,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE06D5A21AADD88F0054F22D /* Main.storyboard in Resources */,
-				FE06D5E11AADD9F50054F22D /* softScanBeep.wav in Resources */,
 				FE06D5A71AADD88F0054F22D /* LaunchScreen.xib in Resources */,
 				FE06D5A41AADD88F0054F22D /* Images.xcassets in Resources */,
 				FE06D6461AAE06EC0054F22D /* plugin.xml in Resources */,
@@ -354,7 +345,6 @@
 				FE06D5E41AADDA3C0054F22D /* CDVScannerPlugin.m in Sources */,
 				FE06D63A1AADE56A0054F22D /* RABarcodeScanner.m in Sources */,
 				FE06D5E01AADD9F50054F22D /* ScanApiHelper.mm in Sources */,
-				FE06D5DD1AADD9F40054F22D /* Debug.m in Sources */,
 				FE06D5DE1AADD9F40054F22D /* DeviceInfo.m in Sources */,
 				FE06D59C1AADD88F0054F22D /* AppDelegate.m in Sources */,
 				FE06D5991AADD88F0054F22D /* main.m in Sources */,

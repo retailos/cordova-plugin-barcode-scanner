@@ -17,11 +17,16 @@ static float ScannerTimerInterval = 0.2;
 @interface RABarcodeScanner() <ScanApiHelperDelegate>
 
 @property (nonatomic) ScanApiHelper *socketMobilescanner;
-@property (nonatomic) NSTimer *scannerAPIConsumer;
+@property (nonatomic) NSTimer *scannerAPITimer;
 
 @end
 
 @implementation RABarcodeScanner
+
+- (void)dealloc {
+    [self.scannerAPITimer invalidate];
+    self.scannerAPITimer = nil;
+}
 
 - (instancetype)init {
     
@@ -30,7 +35,7 @@ static float ScannerTimerInterval = 0.2;
         [_socketMobilescanner setDelegate:self];
         [_socketMobilescanner open];
         
-        _scannerAPIConsumer = [NSTimer scheduledTimerWithTimeInterval:ScannerTimerInterval target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
+        _scannerAPITimer = [NSTimer scheduledTimerWithTimeInterval:ScannerTimerInterval target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
     }
     return self;
 }
@@ -50,21 +55,23 @@ static float ScannerTimerInterval = 0.2;
 
 - (void)onDeviceArrival:(SKTRESULT)result device:(DeviceInfo *)deviceAdded {
     if ([self.delegate respondsToSelector:@selector(deviceConnectedWithInfo:)]) {
-        [self.delegate deviceConnectedWithInfo:deviceDetails(deviceAdded)];
+        [self.delegate deviceConnectedWithInfo:deviceResponse(deviceAdded)];
     }
 }
 
 - (void)onDeviceRemoval:(DeviceInfo *)deviceRemoved {
     if ([self.delegate respondsToSelector:@selector(deviceDisconnectedWithInfo:)]) {
-        [self.delegate deviceDisconnectedWithInfo:deviceDetails(deviceRemoved)];
+        [self.delegate deviceDisconnectedWithInfo:deviceResponse(deviceRemoved)];
     }
 }
 
-- (void)onDecodedData:(DeviceInfo *)device decodedData:(id<ISktScanDecodedData>)decodedData {
-    NSString *result = [NSString stringWithUTF8String:(const char *)[decodedData getData]];
+- (void)onDecodedDataResult:(long)result device:(DeviceInfo *)device decodedData:(id<ISktScanDecodedData>)decodedData {
+    NSString *resultString = [NSString stringWithUTF8String:(const char *)[decodedData getData]];
     if ([self.delegate respondsToSelector:@selector(scannerFinishedWithResult:)]) {
-        [self.delegate scannerFinishedWithResult:result ? resultDetails(device, result) : @{}];
+        [self.delegate scannerFinishedWithResult:resultString ? scanResponse(resultString) : @{}];
     }
+    
+    [self.socketMobilescanner postSetDataConfirmation:device Target:nil Response:nil];
 }
 
 - (void)onError:(SKTRESULT)result {
@@ -74,7 +81,7 @@ static float ScannerTimerInterval = 0.2;
 
 - (void)onScanApiInitializeComplete:(SKTRESULT)result {
     if (SKTSUCCESS(result)) {
-        [self.socketMobilescanner postSetConfirmationMode:kSktScanDataConfirmationModeApp Target:self Response:@selector(onSetDataConfirmationMode:)];
+        [self.socketMobilescanner postSetConfirmationMode:kSktScanDataConfirmationModeScanAPI Target:self Response:@selector(onSetDataConfirmationMode:)];
     } else {
         NSString *errorString = [NSString stringWithFormat:@"Error initializing ScanAPI: %ld",result];
         [self sendError:errorString];
@@ -89,18 +96,16 @@ static float ScannerTimerInterval = 0.2;
     }
 }
 
-NSDictionary *deviceDetails(DeviceInfo *deviceInfo) {
+NSDictionary *deviceResponse(DeviceInfo *deviceInfo) {
     return @{
-             @"deviceName" : deviceInfo.getName
+             @"deviceName" : deviceInfo.getName ?: @""
              };
 }
 
-NSDictionary *resultDetails(DeviceInfo *deviceInfo, NSString *result) {
-    NSMutableDictionary *info = deviceDetails(deviceInfo).mutableCopy;
-    [info addEntriesFromDictionary: @{
-                                     @"result"      : result,
-                                     }];
-    return info;
+NSDictionary *scanResponse(NSString *result) {
+    return @{
+             @"result" : result ?: @"",
+             };
 }
 
 @end

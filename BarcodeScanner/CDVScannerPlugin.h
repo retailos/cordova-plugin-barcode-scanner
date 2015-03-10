@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CDVPlugin.h"
+#import "Cordova/CDV.h"
+#import "Cordova/CDVPlugin.h"
 
 @interface CDVScannerPlugin : CDVPlugin
 
-- (void)initScanner:(CDVInvokedUrlCommand *)command;
+- (void)scan:(CDVInvokedUrlCommand *)command;
 
 @end

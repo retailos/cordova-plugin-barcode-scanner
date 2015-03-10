@@ -9,7 +9,7 @@
     <keywords>cordova,barcode,scanner</keywords>
     <repo>git@bitbucket.org:eltonlivera-redant/barcodescanner.git</repo>
     
-    <js-module src="www/scanner.js" name="scanner">
+    <js-module src="scanner.js" name="scanner">
         <clobbers target="scanner" />
     </js-module>
     
@@ -28,38 +28,38 @@
         
         <framework src="ExternalAccessory.framework" />
         
-        <header-file src="src/ios/RABarcodeScanner.h" />
-        <source-file src="src/ios/RABarcodeScanner.m" />
-        <header-file src="src/ios/CDVSCannerPlugin.h" />
-        <source-file src="src/ios/CDVSCannerPlugin.m" />
+        <header-file src="RABarcodeScanner.h" />
+        <source-file src="RABarcodeScanner.m" />
+        <header-file src="CDVSCannerPlugin.h" />
+        <source-file src="CDVSCannerPlugin.m" />
         
         <!-- SocketMobileSDK -->
-        <source-file src="src/ios/Libs/SocketMobile/lib/libScanApi.a" framework="true" />
-        <header-file src="src/ios/Libs/SocketMobile/include/BtHelper.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/BtHelperWm.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/GenBarcode.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/ISktScanApi.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/ISktScanDecodedData.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/ISktScanDevice.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/ISktScanEvent.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/ISktScanMsg.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/ISktScanObject.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/ISktScanProperty.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/ISktScanSymbology.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/ISktScanVersion.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/ScanAPI.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/SktClassFactory.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/SktScanAPI.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/SktScanCore.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/SktScanDeviceType.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/SktScanErrors.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/SktScanPropIds.h" />
-        <header-file src="src/ios/Libs/SocketMobile/include/SktScanTypes.h" />
-        <header-file src="src/ios/Libs/SocketMobile/DeviceInfo.h"/>
-        <source-file src="src/ios/Libs/SocketMobile/DeviceInfo.m" />
-        <header-file src="src/ios/Libs/SocketMobile/ScanApiHelper.h"/>
-        <source-file src="src/ios/Libs/SocketMobile/ScanApiHelper.mm" />
-        <header-file src="src/ios/Libs/SocketMobile/ScanApiIncludes.h"/>
+        <source-file src="Libs/SocketMobile/lib/libScanApi.a" framework="true" />
+        <header-file src="Libs/SocketMobile/include/BtHelper.h" />
+        <header-file src="Libs/SocketMobile/include/BtHelperWm.h" />
+        <header-file src="Libs/SocketMobile/include/GenBarcode.h" />
+        <header-file src="Libs/SocketMobile/include/ISktScanApi.h" />
+        <header-file src="Libs/SocketMobile/include/ISktScanDecodedData.h" />
+        <header-file src="Libs/SocketMobile/include/ISktScanDevice.h" />
+        <header-file src="Libs/SocketMobile/include/ISktScanEvent.h" />
+        <header-file src="Libs/SocketMobile/include/ISktScanMsg.h" />
+        <header-file src="Libs/SocketMobile/include/ISktScanObject.h" />
+        <header-file src="Libs/SocketMobile/include/ISktScanProperty.h" />
+        <header-file src="Libs/SocketMobile/include/ISktScanSymbology.h" />
+        <header-file src="Libs/SocketMobile/include/ISktScanVersion.h" />
+        <header-file src="Libs/SocketMobile/include/ScanAPI.h" />
+        <header-file src="Libs/SocketMobile/include/SktClassFactory.h" />
+        <header-file src="Libs/SocketMobile/include/SktScanAPI.h" />
+        <header-file src="Libs/SocketMobile/include/SktScanCore.h" />
+        <header-file src="Libs/SocketMobile/include/SktScanDeviceType.h" />
+        <header-file src="Libs/SocketMobile/include/SktScanErrors.h" />
+        <header-file src="Libs/SocketMobile/include/SktScanPropIds.h" />
+        <header-file src="Libs/SocketMobile/include/SktScanTypes.h" />
+        <header-file src="Libs/SocketMobile/DeviceInfo.h"/>
+        <source-file src="Libs/SocketMobile/DeviceInfo.m" />
+        <header-file src="Libs/SocketMobile/ScanApiHelper.h"/>
+        <source-file src="Libs/SocketMobile/ScanApiHelper.mm" />
+        <header-file src="Libs/SocketMobile/ScanApiIncludes.h"/>
         
     </platform>
     

@@ -12,6 +12,7 @@
 @interface ViewController () <RABarcodeScannerDelegate>
 
 @property (nonatomic) RABarcodeScanner *scanner;
+@property (nonatomic, weak) IBOutlet UILabel *label;
 
 @end
 
@@ -25,6 +26,7 @@
 }
 
 - (void)scannerFinishedWithResult:(NSDictionary *)result {
+    self.label.text = result[@"result"];
     NSLog(@"scanningFinishedWithResult: %@", result);
 }
 

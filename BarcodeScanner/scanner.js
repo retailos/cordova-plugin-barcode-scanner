@@ -7,16 +7,15 @@ cordova = require('cordova');
 channel.createSticky('onCordovaInfoReady');
 channel.waitForInitialization('onCordovaInfoReady');
 
-function Scanner() { }
+function Scanner() {}
 
 /**
- * Get device info
  *
  * @param {Function} successCallback The function to call when the heading data is available
- * @param {Function} errorCallback The function to call when there is an error getting the heading data. (OPTIONAL)
+ * @param {Function} errorCallback The function to call when there is an error getting the heading data.
  */
-Scanner.prototype.initScanner = function(successCallback, errorCallback) {
-    exec(successCallback, errorCallback, "Scanner", "initScanner", []);
+Scanner.prototype.scan = function(successCallback, errorCallback) {
+    exec(successCallback, errorCallback, "Scanner", "scan", []);
 };
 
 module.exports = new Scanner();

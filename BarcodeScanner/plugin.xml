@@ -7,7 +7,7 @@
     <description>Barcode Scanner</description>
     <license>Apache 2.0</license>
     <keywords>cordova,barcode,scanner</keywords>
-    <repo>git@bitbucket.org:eltonlivera-redant/barcodescanner.git</repo>
+    <repo>git@bitbucket.org:retailos/barcodescanner.git</repo>
     
     <js-module src="scanner.js" name="scanner">
         <clobbers target="scanner" />

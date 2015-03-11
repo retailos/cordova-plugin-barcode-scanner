@@ -16,6 +16,16 @@ Event types:
 * CONNECTED
 * DISCONNECTED
 
+### JS Call ###
+
+```
+scanner.scan(function(val) {
+    console.log(val);
+}, function(err) {
+    console.log(err);
+});
+```
+
 ### Example Response ###
 ```
 {

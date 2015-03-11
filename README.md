@@ -25,3 +25,11 @@ Event types:
     }
 }
 ```
+```
+{
+    "event": {
+        "type": "SCANNED",
+        "message": "Z1189081460GB"
+    }
+}
+```

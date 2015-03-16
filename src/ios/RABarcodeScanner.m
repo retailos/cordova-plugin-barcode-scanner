@@ -8,15 +8,20 @@
 
 #import "RABarcodeScanner.h"
 #import "ScanApiHelper.h"
+#import "DTDevices.h"
+
+NSString * const RAResultKey = @"result";
+NSString * const RADeviceNameKey = @"deviceName";
 
 NSString * const RAScannerErrorDomain = @"com.redant.scanner-error";
 NSInteger const RAScannerErrorCode = 101;
+static float ScannerTimerInterval = 0.5;
 
-static float ScannerTimerInterval = 0.2;
+@interface RABarcodeScanner() <ScanApiHelperDelegate, DTDeviceDelegate>
 
-@interface RABarcodeScanner() <ScanApiHelperDelegate>
-
-@property (nonatomic) ScanApiHelper *socketMobilescanner;
+@property (nonatomic, weak) id<RABarcodeScannerDelegate> delegate;
+@property (nonatomic) ScanApiHelper *socketMobileScanner;
+@property (nonatomic) DTDevices *lineaproScanner;
 @property (nonatomic) NSTimer *scannerAPITimer;
 
 @end
@@ -29,19 +34,38 @@ static float ScannerTimerInterval = 0.2;
 }
 
 - (instancetype)init {
+    return nil;
+}
+
+- (instancetype)initWithDelegate:(id<RABarcodeScannerDelegate>)delegate {
     
     if (self = [super init]) {
-        _socketMobilescanner = [[ScanApiHelper alloc] init];
-        [_socketMobilescanner setDelegate:self];
-        [_socketMobilescanner open];
+        _delegate = delegate;
         
+        _socketMobileScanner = [[ScanApiHelper alloc] init];
+        [_socketMobileScanner setDelegate:self];
+        [_socketMobileScanner open];
         _scannerAPITimer = [NSTimer scheduledTimerWithTimeInterval:ScannerTimerInterval target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
+        
+        _lineaproScanner = [DTDevices sharedDevice];
+        _lineaproScanner.delegate = self;
+        [_lineaproScanner barcodeSetTypeMode:BARCODE_TYPE_DEFAULT error:nil];
+        [_lineaproScanner connect];
     }
     return self;
 }
 
+#pragma mark - SocketMobile SDK
+#pragma mark Helper methods
+
+- (void)stopSocketMobileScanner {
+    [self.scannerAPITimer invalidate];
+    self.scannerAPITimer = nil;
+    [self.socketMobileScanner close];
+}
+
 - (void)onTimer:(NSTimer *)timer {
-    [self.socketMobilescanner doScanApiReceive];
+    [self.socketMobileScanner doScanApiReceive];
 }
 
 - (void)sendError:(NSString *)errorDescription {
@@ -51,17 +75,20 @@ static float ScannerTimerInterval = 0.2;
     }
 }
 
-#pragma mark - Scanner delegate methods
+#pragma mark Scanner delegate methods
 
 - (void)onDeviceArrival:(SKTRESULT)result device:(DeviceInfo *)deviceAdded {
     if ([self.delegate respondsToSelector:@selector(deviceConnectedWithInfo:)]) {
-        [self.delegate deviceConnectedWithInfo:deviceResponse(deviceAdded)];
+        [self.delegate deviceConnectedWithInfo:deviceResponse(deviceAdded.getName)];
     }
+    
+    // Connected external accessory is SocketMobile so stop Linea
+    [self stopSocketMobileScanner];
 }
 
 - (void)onDeviceRemoval:(DeviceInfo *)deviceRemoved {
     if ([self.delegate respondsToSelector:@selector(deviceDisconnectedWithInfo:)]) {
-        [self.delegate deviceDisconnectedWithInfo:deviceResponse(deviceRemoved)];
+        [self.delegate deviceDisconnectedWithInfo:deviceResponse(deviceRemoved.getName)];
     }
 }
 
@@ -71,7 +98,7 @@ static float ScannerTimerInterval = 0.2;
         [self.delegate scannerFinishedWithResult:resultString ? scanResponse(resultString) : @{}];
     }
     
-    [self.socketMobilescanner postSetDataConfirmation:device Target:nil Response:nil];
+    [self.socketMobileScanner postSetDataConfirmation:device Target:nil Response:nil];
 }
 
 - (void)onError:(SKTRESULT)result {
@@ -81,7 +108,7 @@ static float ScannerTimerInterval = 0.2;
 
 - (void)onScanApiInitializeComplete:(SKTRESULT)result {
     if (SKTSUCCESS(result)) {
-        [self.socketMobilescanner postSetConfirmationMode:kSktScanDataConfirmationModeScanAPI Target:self Response:@selector(onSetDataConfirmationMode:)];
+        [self.socketMobileScanner postSetConfirmationMode:kSktScanDataConfirmationModeScanAPI Target:self Response:@selector(onSetDataConfirmationMode:)];
     } else {
         NSString *errorString = [NSString stringWithFormat:@"Error initializing ScanAPI: %ld",result];
         [self sendError:errorString];
@@ -96,15 +123,64 @@ static float ScannerTimerInterval = 0.2;
     }
 }
 
-NSDictionary *deviceResponse(DeviceInfo *deviceInfo) {
+#pragma mark - Linea-pro SDK
+#pragma mark Scanner delegate methods
+
+- (void)stopLineaProScanner {
+    [self.lineaproScanner disconnect];
+}
+
+- (void)barcodeNSData:(NSData *)barcode type:(int)type {
+    NSString *resultString = [[NSString alloc] initWithData:barcode encoding:NSUTF8StringEncoding];
+    if ([self.delegate respondsToSelector:@selector(scannerFinishedWithResult:)]) {
+        [self.delegate scannerFinishedWithResult:resultString ? scanResponse(resultString) : @{}];
+    }
+}
+
+- (void)connectionState:(int)state {
+    switch (state) {
+            
+        case CONN_CONNECTED: {
+            NSArray *connectedDevices = [_lineaproScanner getConnectedDevicesInfo:nil];
+            if ([self.delegate respondsToSelector:@selector(deviceConnectedWithInfo:)]) {
+                [self.delegate deviceConnectedWithInfo:deviceResponse(connectedDevices.firstObject)];
+            }
+            
+            // Connected external accessory is Linea so stop SocketMobile
+            [self stopSocketMobileScanner];
+        }
+            break;
+            
+        case CONN_DISCONNECTED:
+        case CONN_CONNECTING:
+            if ([self.delegate respondsToSelector:@selector(deviceConnectedWithInfo:)]) {
+                [self.delegate deviceDisconnectedWithInfo:deviceResponse(nil)];
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark - Functions
+
+NSDictionary *deviceResponse(id device) {
+    NSString *deviceName;
+    if ([device isKindOfClass:[DTDeviceInfo class]]) {
+        deviceName = ((DTDeviceInfo *)device).name;
+    } else if ([deviceName isKindOfClass:[DeviceInfo class]]) {
+        deviceName = ((DeviceInfo *)device).getName;
+    }
+    
     return @{
-             @"deviceName" : deviceInfo.getName ?: @""
+             RADeviceNameKey : deviceName ?: @""
              };
 }
 
 NSDictionary *scanResponse(NSString *result) {
     return @{
-             @"result" : result ?: @"",
+             RAResultKey : result ?: @"",
              };
 }
 

@@ -2,19 +2,11 @@
 
 ### Install ###
 
-cordova plugin add https://bitbucket.org/retailos/barcodescanner
+cordova plugin add https://bitbucket.org/RedAntCode/cordovabarcodescanner.git
 
 ### Uninstall ###
 
 cordova plugin remove com.redant.barcodescanner
-
-### Response ###
-
-Event types:
-* SCANNED
-* ERROR
-* CONNECTED
-* DISCONNECTED
 
 ### JS Call ###
 
@@ -43,3 +35,9 @@ scanner.scan(function(val) {
     }
 }
 ```
+
+### Event types ###
+* SCANNED
+* ERROR
+* CONNECTED
+* DISCONNECTED

@@ -2,7 +2,7 @@
 
 ### Install ###
 
-cordova plugin add https://bitbucket.org/RedAntCode/cordovabarcodescanner.git
+cordova plugin add https://bitbucket.org/retailos/cordova-plugin-barcode-scanner.git
 
 ### Uninstall ###
 

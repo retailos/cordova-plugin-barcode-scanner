@@ -14,7 +14,6 @@ static NSString * const EventTypeKey = @"type";
 static NSString * const EventMessageKey = @"message";
 
 static NSString * const EventScanned = @"SCANNED";
-static NSString * const EventScannedError = @"SCANNED_ERROR";
 static NSString * const EventError = @"ERROR";
 static NSString * const EventConnected = @"CONNECTED";
 static NSString * const EventDisconnected = @"DISCONNECTED";
@@ -45,7 +44,7 @@ static NSString * const EventDisconnected = @"DISCONNECTED";
 }
 
 - (void)scannerFinishedWithError:(NSError *)error {
-    NSDictionary *response = responseDictionary(EventScannedError, error.localizedDescription);
+    NSDictionary *response = responseDictionary(EventError, error.localizedDescription);
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:response];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];

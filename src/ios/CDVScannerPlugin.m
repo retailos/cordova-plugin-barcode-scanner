@@ -14,6 +14,7 @@ static NSString * const EventTypeKey = @"type";
 static NSString * const EventMessageKey = @"message";
 
 static NSString * const EventScanned = @"SCANNED";
+static NSString * const EventScannedError = @"SCANNED_ERROR";
 static NSString * const EventError = @"ERROR";
 static NSString * const EventConnected = @"CONNECTED";
 static NSString * const EventDisconnected = @"DISCONNECTED";
@@ -32,35 +33,33 @@ static NSString * const EventDisconnected = @"DISCONNECTED";
         _scanner = nil;
     }
     
-    _scanner = [[RABarcodeScanner alloc] init];
-    _scanner.delegate = self;
-    
+    _scanner = [[RABarcodeScanner alloc] initWithDelegate:self];
     self.callbackId = command.callbackId;
 }
 
 - (void)scannerFinishedWithResult:(NSDictionary *)result {
-    NSDictionary *response = responseDictionary(EventScanned, result[@"result"]);
+    NSDictionary *response = responseDictionary(EventScanned, result[RAResultKey]);
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
 }
 
 - (void)scannerFinishedWithError:(NSError *)error {
-    NSDictionary *response = responseDictionary(EventError, error.localizedDescription);
+    NSDictionary *response = responseDictionary(EventScannedError, error.localizedDescription);
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:response];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
 }
 
 - (void)deviceDisconnectedWithInfo:(NSDictionary *)deviceInfo {
-    NSDictionary *response = responseDictionary(EventDisconnected, deviceInfo[@"deviceName"]);
+    NSDictionary *response = responseDictionary(EventDisconnected, deviceInfo[RADeviceNameKey]);
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:response];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
 }
 
 - (void)deviceConnectedWithInfo:(NSDictionary *)deviceInfo {
-    NSDictionary *response = responseDictionary(EventConnected, deviceInfo[@"deviceName"]);
+    NSDictionary *response = responseDictionary(EventConnected, deviceInfo[RADeviceNameKey]);
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];

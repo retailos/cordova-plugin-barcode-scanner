@@ -10,6 +10,8 @@
 
 extern NSString * const RAScannerErrorDomain;
 extern NSInteger const RAScannerErrorCode;
+extern NSString * const RAResultKey;
+extern NSString * const RADeviceNameKey;
 
 @protocol RABarcodeScannerDelegate <NSObject>
 
@@ -25,6 +27,6 @@ extern NSInteger const RAScannerErrorCode;
 
 @interface RABarcodeScanner : NSObject
 
-@property (nonatomic, weak) id<RABarcodeScannerDelegate> delegate;
+- (instancetype)initWithDelegate:(id<RABarcodeScannerDelegate>)delegate;
 
 @end

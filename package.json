@@ -1,6 +1,6 @@
 {
     "name": "barcode-scanner",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Barcode Scanner",
     "cordova": {
         "id": "com.redant.barcodescanner",
@@ -10,7 +10,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git@bitbucket.org:retailos/barcodescanner.git"
+        "url": "git@bitbucket.org:retailos/cordova-plugin-barcode-scanner.git"
     },
     "keywords": [
                  "cordova",

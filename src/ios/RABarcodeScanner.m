@@ -58,12 +58,6 @@ static float ScannerTimerInterval = 0.5;
 #pragma mark - SocketMobile SDK
 #pragma mark Helper methods
 
-- (void)stopSocketMobileScanner {
-    [self.scannerAPITimer invalidate];
-    self.scannerAPITimer = nil;
-    [self.socketMobileScanner close];
-}
-
 - (void)onTimer:(NSTimer *)timer {
     [self.socketMobileScanner doScanApiReceive];
 }
@@ -79,16 +73,13 @@ static float ScannerTimerInterval = 0.5;
 
 - (void)onDeviceArrival:(SKTRESULT)result device:(DeviceInfo *)deviceAdded {
     if ([self.delegate respondsToSelector:@selector(deviceConnectedWithInfo:)]) {
-        [self.delegate deviceConnectedWithInfo:deviceResponse(deviceAdded.getName)];
+        [self.delegate deviceConnectedWithInfo:deviceResponse(deviceAdded)];
     }
-    
-    // Connected external accessory is SocketMobile so stop Linea
-    [self stopSocketMobileScanner];
 }
 
 - (void)onDeviceRemoval:(DeviceInfo *)deviceRemoved {
     if ([self.delegate respondsToSelector:@selector(deviceDisconnectedWithInfo:)]) {
-        [self.delegate deviceDisconnectedWithInfo:deviceResponse(deviceRemoved.getName)];
+        [self.delegate deviceDisconnectedWithInfo:deviceResponse(deviceRemoved)];
     }
 }
 
@@ -126,14 +117,10 @@ static float ScannerTimerInterval = 0.5;
 #pragma mark - Linea-pro SDK
 #pragma mark Scanner delegate methods
 
-- (void)stopLineaProScanner {
-    [self.lineaproScanner disconnect];
-}
-
 - (void)barcodeNSData:(NSData *)barcode type:(int)type {
     NSString *resultString = [[NSString alloc] initWithData:barcode encoding:NSUTF8StringEncoding];
     if ([self.delegate respondsToSelector:@selector(scannerFinishedWithResult:)]) {
-        [self.delegate scannerFinishedWithResult:resultString ? scanResponse(resultString) : @{}];
+        [self.delegate scannerFinishedWithResult:scanResponse(resultString)];
     }
 }
 
@@ -145,15 +132,12 @@ static float ScannerTimerInterval = 0.5;
             if ([self.delegate respondsToSelector:@selector(deviceConnectedWithInfo:)]) {
                 [self.delegate deviceConnectedWithInfo:deviceResponse(connectedDevices.firstObject)];
             }
-            
-            // Connected external accessory is Linea so stop SocketMobile
-            [self stopSocketMobileScanner];
         }
             break;
             
         case CONN_DISCONNECTED:
         case CONN_CONNECTING:
-            if ([self.delegate respondsToSelector:@selector(deviceConnectedWithInfo:)]) {
+            if ([self.delegate respondsToSelector:@selector(deviceDisconnectedWithInfo:)]) {
                 [self.delegate deviceDisconnectedWithInfo:deviceResponse(nil)];
             }
             break;
@@ -167,9 +151,10 @@ static float ScannerTimerInterval = 0.5;
 
 NSDictionary *deviceResponse(id device) {
     NSString *deviceName;
+    
     if ([device isKindOfClass:[DTDeviceInfo class]]) {
         deviceName = ((DTDeviceInfo *)device).name;
-    } else if ([deviceName isKindOfClass:[DeviceInfo class]]) {
+    } else if ([device isKindOfClass:[DeviceInfo class]]) {
         deviceName = ((DeviceInfo *)device).getName;
     }
     

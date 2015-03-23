@@ -33,35 +33,40 @@ static NSString * const EventDisconnected = @"DISCONNECTED";
     }
     
     _scanner = [[RABarcodeScanner alloc] initWithDelegate:self];
-    self.callbackId = command.callbackId;
+    _callbackId = command.callbackId;
+}
+
+- (void)sendResult:(CDVPluginResult *)pluginResult {
+    [pluginResult setKeepCallbackAsBool:YES];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
 }
 
 - (void)scannerFinishedWithResult:(NSDictionary *)result {
     NSDictionary *response = responseDictionary(EventScanned, result[RAResultKey]);
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
+    [self sendResult:pluginResult];
 }
 
 - (void)scannerFinishedWithError:(NSError *)error {
     NSDictionary *response = responseDictionary(EventError, error.localizedDescription);
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:response];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
+    [self sendResult:pluginResult];
 }
 
 - (void)deviceDisconnectedWithInfo:(NSDictionary *)deviceInfo {
     NSDictionary *response = responseDictionary(EventDisconnected, deviceInfo[RADeviceNameKey]);
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:response];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
+    [self sendResult:pluginResult];
 }
 
 - (void)deviceConnectedWithInfo:(NSDictionary *)deviceInfo {
     NSDictionary *response = responseDictionary(EventConnected, deviceInfo[RADeviceNameKey]);
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
+    [self sendResult:pluginResult];
 }
 
 NSDictionary * responseDictionary(NSString *eventType, NSString *message) {

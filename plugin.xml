@@ -2,17 +2,17 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="com.redant.barcodescanner"
-    version="0.0.4">
+    version="0.0.5">
     <name>Barcode Scanner</name>
     <description>Barcode Scanner</description>
     <license>Apache 2.0</license>
     <keywords>cordova,barcode,scanner</keywords>
     <repo>git@bitbucket.org:retailos/cordova-plugin-barcode-scanner.git</repo>
-    
+
     <js-module src="www/scanner.js" name="scanner">
         <clobbers target="scanner" />
     </js-module>
-    
+
     <!-- ios -->
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
@@ -27,16 +27,16 @@
                 <string>com.datecs.linea.pro.msr</string>
             </array>
         </config-file>
-        
+
         <!-- Frameworks -->
         <framework src="ExternalAccessory.framework" />
         <framework src="MediaPlayer.framework" />
-        
+
         <header-file src="src/ios/RABarcodeScanner.h" />
         <source-file src="src/ios/RABarcodeScanner.m" />
         <header-file src="src/ios/CDVSCannerPlugin.h" />
         <source-file src="src/ios/CDVSCannerPlugin.m" />
-        
+
         <!-- SocketMobileSDK -->
         <source-file src="src/ios/Libs/SocketMobile/libScanApi.a" framework="true" />
         <header-file src="src/ios/Libs/SocketMobile/BtHelper.h" />
@@ -64,11 +64,11 @@
         <header-file src="src/ios/Libs/SocketMobile/ScanApiHelper.h"/>
         <source-file src="src/ios/Libs/SocketMobile/ScanApiHelper.mm" />
         <header-file src="src/ios/Libs/SocketMobile/ScanApiIncludes.h"/>
-        
+
         <!-- LineaProSDK -->
         <source-file src="src/ios/Libs/LineaPro/libdtdev.a" framework="true" />
         <header-file src="src/ios/Libs/LineaPro/DTDevices.h" />
-        
+
     </platform>
-    
+
 </plugin>

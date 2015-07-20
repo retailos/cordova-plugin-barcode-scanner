@@ -28,17 +28,24 @@ static NSString * const EventDisconnected = @"DISCONNECTED";
 @implementation CDVScannerPlugin
 
 - (void)scan:(CDVInvokedUrlCommand *)command {
-    if (_scanner) {
-        _scanner = nil;
-    }
+     _scanner = nil;
     
-    _scanner = [[RABarcodeScanner alloc] initWithDelegate:self];
-    _callbackId = command.callbackId;
+    //this gets rid of the thread warning for Scanner
+    [self.commandDelegate runInBackground:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+           _scanner = [[RABarcodeScanner alloc] initWithDelegate:self];
+        });
+        _callbackId = command.callbackId;
+    }];
 }
 
 - (void)sendResult:(CDVPluginResult *)pluginResult {
-    [pluginResult setKeepCallbackAsBool:YES];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
+    if (_callbackId) {
+        [pluginResult setKeepCallbackAsBool:YES];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
+        
+        _scanner = nil;
+    }
 }
 
 - (void)scannerFinishedWithResult:(NSDictionary *)result {

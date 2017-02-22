@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Socket Mobile, Inc. All rights reserved.
 //
 
-#ifndef ScannerSettings_ScanApiIncludes_h
-#define ScannerSettings_ScanApiIncludes_h
+#ifndef ScanApiIncludes_h
+#define ScanApiIncludes_h
 #import "SktScanApi.h"
 #import "ScanApi.h"
 

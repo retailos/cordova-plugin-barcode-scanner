@@ -13,12 +13,12 @@
 @interface SktClassFactory : NSObject {
 
 }
-+ (id<ISktScanObject>) createScanObject;
-+(void)releaseScanObject: (id<ISktScanObject>)scanObj;
++ (ISktScanObject*) createScanObject;
++(void)releaseScanObject: (ISktScanObject*)scanObj;
 
-+ (id <ISktScanApi>) createScanApiInstance;
-+(void)releaseScanApiInstance: (id<ISktScanApi>) scanApi;
++ (ISktScanApi*) createScanApiInstance;
++(void)releaseScanApiInstance: (ISktScanApi*) scanApi;
 
-+ (id<ISktScanDevice>) createDeviceInstance: (id<ISktScanApi>) scanApi;
-+(void)releaseDeviceInstance:(id<ISktScanDevice>)deviceInstance; 
++ (ISktScanDevice*) createDeviceInstance: (ISktScanApi*) scanApi;
++(void)releaseDeviceInstance:(ISktScanDevice*)deviceInstance;
 @end

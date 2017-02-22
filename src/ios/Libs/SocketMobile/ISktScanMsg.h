@@ -6,18 +6,20 @@
 //  Copyright 2011 SocketMobile. All rights reserved.
 //
 #import <Foundation/Foundation.h>
+#import "SktScanPropIds.h"
 #import "SktScanTypes.h"
 #import "ISktScanEvent.h"
-@protocol ISktScanDevice;
-@protocol ISktScanMsg
+
+@class ISktScanDevice;
+@interface ISktScanMsg : NSObject
 
 -(enum ESktScanMsgID) MsgID;
 -(SKTRESULT) Result;
 -(NSString*) DeviceName;
--(id<ISktScanDevice>) hDevice;
+-(ISktScanDevice*) hDevice;
 -(uint32_t) DeviceType;
 -(NSString*) DeviceGuid;
--(id<ISktScanEvent>) Event;
+-(ISktScanEvent*) Event;
 
 @end
 

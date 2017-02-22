@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol ISktScanDecodedData <NSObject>
+@interface ISktScanDecodedData : NSObject
 -(enum ESktScanSymbologyID)ID;
 -(NSString*)Name;
 -(uint8_t*)getData;

@@ -10,7 +10,7 @@
 
 @implementation DecodedDataInfo
 
--(DecodedDataInfo*)initWithDecodedData:(id<ISktScanDecodedData>)decodedData{
+-(DecodedDataInfo*)initWithDecodedData:(ISktScanDecodedData*)decodedData{
     self=[super init];
     if(self!=nil){
 #if __has_feature(objc_arc)
@@ -71,7 +71,7 @@
 
 @implementation SymbologyInfo
 
--(SymbologyInfo*)initWithSymbology:(id<ISktScanSymbology>)symbology{
+-(SymbologyInfo*)initWithSymbology:(ISktScanSymbology*)symbology{
     self=[super init];
     if(self!=nil){
         _id=[symbology getID];
@@ -123,7 +123,7 @@
 @implementation DeviceInfo
 
 
--(DeviceInfo*)init:(id<ISktScanDevice>)device name:(NSString*)name type:(long)type{
+-(DeviceInfo*)init:(ISktScanDevice*)device name:(NSString*)name type:(long)type{
 	self=[super init];
     if(self!=nil){
         _device=device;
@@ -155,7 +155,7 @@
 #endif
 }
 
--(id<ISktScanDevice>) getSktScanDevice{
+-(ISktScanDevice*) getSktScanDevice{
 	return _device;
 }
 
@@ -199,19 +199,25 @@
 -(NSString*) getTypeString{
 	NSString *type;
 	if(_type==kSktScanDeviceTypeScanner7)
-		type=@"CHS Scanner";
+		type=@"CHS 7 Scanner";
 	else if(_type==kSktScanDeviceTypeScanner7x)
 		type=@"CHS 7X Scanner";
 	else if(_type==kSktScanDeviceTypeScanner7xi)
-		type=@"CHS 7Xi/Qi Scanner";
+		type=@"CHS 7Xi Scanner";
 	else if(_type==kSktScanDeviceTypeScanner9)
 		type=@"CRS Scanner";
 	else if(_type==kSktScanDeviceTypeSoftScan)
 		type=@"SoftScan";
 	else if(_type==kSktScanDeviceTypeScanner8ci)
-		type=@"CHS 8Ci Scanner";
+		type=@"SocketScan S800 Scanner";
     else if(_type==kSktScanDeviceTypeScanner8qi)
-        type=@"CHS 8Qi Scanner";
+        type=@"SocketScan S850 Scanner";
+    else if(_type==kSktScanDeviceTypeScannerD700)
+        type=@"DuraScan D700 Scanner";
+    else if(_type==kSktScanDeviceTypeScannerD730)
+        type=@"DuraScan D730 Scanner";
+    else if(_type==kSktScanDeviceTypeScannerD750)
+        type=@"DuraScan D750 Scanner";
 	else {
 		type=@"Unknown scanner type";
 	}
@@ -233,6 +239,7 @@
 
 -(void)setFirmwareVersion:(NSString *)version{
 #if __has_feature(objc_arc)
+    _version = version;
 #else
     [_version release];
     _version=[version retain];
@@ -245,9 +252,10 @@
 }
 -(void)setBatteryLevel:(NSString *)level{
 #if __has_feature(objc_arc)
+    _batterylevel = level;
 #else
     [_batterylevel release];
-    _batterylevel=[level retain];
+    _batterylevel = [level retain];
 #endif
 	[_notification OnNotify:self notificationType:kNotificationBattery];
 }
@@ -257,9 +265,10 @@
 }
 -(void)setStandConfig:(NSString *)config{
 #if __has_feature(objc_arc)
+    _standConfig = config;
 #else
     [_standConfig release];
-    _standConfig=[config retain];
+    _standConfig = [config retain];
 #endif
 	[_notification OnNotify:self notificationType:kNotificationStandConfig];
 }
@@ -287,9 +296,10 @@
 
 -(void)setPostamble:(NSString*) postamble{
 #if __has_feature(objc_arc)
+    _postamble = postamble;
 #else
     [_postamble release];
-    _postamble=[postamble retain];
+    _postamble = [postamble retain];
 #endif
 	[_notification OnNotify:self notificationType:kNotificationPostamble];
 }
@@ -299,12 +309,22 @@
 	return _decodedData;
 }
 
--(void) setDecodeData:(id<ISktScanDecodedData>)decodedData{
+-(void) setDecodeData:(ISktScanDecodedData*)decodedData{
 #if __has_feature(objc_arc)
 #else
 	[_decodedData release];
 #endif
-    _decodedData=[[DecodedDataInfo alloc]initWithDecodedData:decodedData];
+    _decodedData=[[DecodedDataInfo alloc] initWithDecodedData:decodedData];
+	[_notification OnNotify:self notificationType:kNotificationDecodedData];
+}
+
+-(void) setDecodedDataInfo:(DecodedDataInfo*)decodedData{
+#if __has_feature(objc_arc)
+#else
+	[_decodedData release];
+    [decodedData retain];
+#endif
+    _decodedData=decodedData;
 	[_notification OnNotify:self notificationType:kNotificationDecodedData];
 }
 
@@ -316,8 +336,8 @@
     return symbologyInfo;
 }
 
--(void)addSymbologyInfo:(id<ISktScanSymbology>)symbologyInfo{
-    
+-(void)addSymbologyInfo:(ISktScanSymbology*)symbologyInfo{
+
     // care only about the symbology that is supported by the device
     if([symbologyInfo getStatus]!=kSktScanSymbologyStatusNotSupported){
 #if __has_feature(objc_arc)
@@ -351,7 +371,9 @@
 }
 
 -(void)setHealthValues:(short*)healthValues Size:(int)size{
-    _healthValues=healthValues;
+    free(_healthValues);
+    _healthValues = malloc(size*sizeof(short));
+    memcpy(_healthValues,healthValues,size*sizeof(short));
     _healthValuesSize=size;
 }
 

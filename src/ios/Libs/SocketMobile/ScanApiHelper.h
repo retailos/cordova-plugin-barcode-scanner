@@ -11,10 +11,10 @@
 
 #import "DeviceInfo.h"
 
-@protocol ISktScanObject;
-@protocol ISktScanDevice;
-@protocol ISktScanDecodedData;
-@protocol ISktScanApi;
+@class ISktScanObject;
+@class ISktScanDevice;
+@class ISktScanDecodedData;
+@class ISktScanApi;
 
 #define CMD_MAX_RETRY 3 // maximum retry for a command
 
@@ -26,8 +26,8 @@
  * with a property response and/or ask for another
  * property
  */
-@protocol CommandContextDelegate <NSObject> 
--(void)run:(id<ISktScanObject>)scanObj;
+@protocol CommandContextDelegate <NSObject>
+-(void)run:(ISktScanObject*)scanObj;
 @end
 
 @interface CommandContext : NSObject{
@@ -39,8 +39,8 @@
         statusCompleted
     }status;
     BOOL _getOperation;
-    id<ISktScanObject>_scanObj;
-    id<ISktScanDevice>_device;
+    ISktScanObject* _scanObj;
+    ISktScanDevice* _device;
     DeviceInfo* _deviceInfo;
     int _symbologyId;
     int retry;
@@ -49,19 +49,19 @@
 @property (nonatomic,readwrite)int retry;
 @property (nonatomic,readwrite)enum eStatus status;
 
--(id)initWithParam:(BOOL)getOperation 
-           ScanObj:(id<ISktScanObject>)scanObj 
-        ScanDevice:(id<ISktScanDevice>)scanDevice 
-            Device:(DeviceInfo*)device 
+-(id)initWithParam:(BOOL)getOperation
+           ScanObj:(ISktScanObject*)scanObj
+        ScanDevice:(ISktScanDevice*)scanDevice
+            Device:(DeviceInfo*)device
             Target:(id)target
           Response:(SEL)response;
 -(void)dealloc;
 
--(id<ISktScanDevice>)getScanDevice;
--(id<ISktScanObject>)getScanObject;
--(SKTRESULT)doCallback:(id<ISktScanObject>)scanObj;
+-(ISktScanDevice*)getScanDevice;
+-(ISktScanObject*)getScanObject;
+-(DeviceInfo*)getDeviceInfo;
+-(SKTRESULT)doCallback:(ISktScanObject*)scanObj;
 -(SKTRESULT)doCommand;
-
 @end
 
 @protocol ScanApiHelperDelegate <NSObject>
@@ -107,13 +107,13 @@
 /**
  * called each time ScanAPI receives decoded data from scanner
  * @param result is ESKT_NOERROR when decodedData contains actual
- * decoded data. The result can be set to ESKT_CANCEL when the 
+ * decoded data. The result can be set to ESKT_CANCEL when the
  * end-user cancels a SoftScan operation
  * @param deviceInfo contains the device information from which
  * the data has been decoded
  * @param decodedData contains the decoded data information
  */
--(void) onDecodedDataResult:(long) result device:(DeviceInfo*) device decodedData:(id<ISktScanDecodedData>) decodedData;
+-(void) onDecodedDataResult:(long) result device:(DeviceInfo*) device decodedData:(ISktScanDecodedData*) decodedData;
 
 // THIS IS THE PREVIOUS onDecodedData THAT WE KEEP FOR BACKWARD
 // COMPATIBILITY BUT THE BEST IS TO USE onDecodedDataResult THAT
@@ -125,8 +125,42 @@
  * the data has been decoded
  * @param decodedData contains the decoded data information
  */
--(void) onDecodedData:(DeviceInfo*) device decodedData:(id<ISktScanDecodedData>) decodedData;
+-(void) onDecodedData:(DeviceInfo*) device decodedData:(ISktScanDecodedData*) decodedData;
 
+/**
+ * called each time the device power state changes, from Battery to AC by example.
+ * The notification parameter contains the state of the device power.
+ *
+ * Values:
+ * kSktScanPowerStatusUnknown=		0x00,
+ * kSktScanPowerStatusOnBattery=	0x01,
+ * kSktScanPowerStatusOnCradle=     0x02,
+ * kSktScanPowerStatusOnAc=         0x04
+ *
+ */
+-(void) onEventPowerResult:(long)result device:(DeviceInfo*) deviceInfo power:(int)powerResult;
+
+/**
+ * called each time the device buttons state changes depending on the button notifications
+ * configuration. This configuration indicates when this event is triggered.
+ * The buttonState actually contains the state of all the buttons at the time the event is triggered.
+ *
+ * The buttonState is a bitmask for each buttons:
+ * Bit 0 : Left Button state: 0 released, 1 press
+ * Bit 1 : Right Button state: 0 release, 1 press
+ * Bit 2 : Middle Button state: 0 release, 1 press
+ * Bit 3 : Power Button state: 0 release, 1 press
+ * Bit 4 : Ring Detached state: 0 connected, 1 detached (CRS Ring Scanner only)
+ */
+-(void) onEventButtonsResult:(long)result device:(DeviceInfo*) deviceInfo buttons:(int)buttonState;
+
+/**
+ * called each time the device battery level changes.
+ * The notification parameter contains the level of the device battery including the range min and max.
+ * Most of the scanners report a range from 0 to 100, where the value can then be expressed in percentile.
+ *
+ */
+-(void) onEventBatteryLevelResult:(long)result device:(DeviceInfo*) deviceInfo batteryLevel:(int)battery;
 @end
 
 
@@ -136,28 +170,28 @@
  * data from a scanner.<p>
  * This helper manages a commands list so the application
  * can send multiple command in a row, the helper will send
- * them one at a time. Each command has an optional callback 
+ * them one at a time. Each command has an optional callback
  * function that will be called each time a command complete.
- * By example, to get a device friendly name, use the 
- * PostGetFriendlyName method and pass a callback function in 
- * which you can update the UI with the newly fetched friendly 
+ * By example, to get a device friendly name, use the
+ * PostGetFriendlyName method and pass a callback function in
+ * which you can update the UI with the newly fetched friendly
  * name. This operation will be completely asynchronous.<p>
- * ScanAPI Helper manages a list of device information. Most of 
+ * ScanAPI Helper manages a list of device information. Most of
  * the time only one device is connected to the host. This list
- * could be configured to have always one item, that will be a 
+ * could be configured to have always one item, that will be a
  * "No device connected" item in the case where there is no device
  * connected, or simply a device name when there is one device
  * connected. Use isDeviceConnected method to know if there is at
- * least one device connected to the host.<br> 
+ * least one device connected to the host.<br>
  * Common usage scenario of ScanAPIHelper:<br>
  * <li> create an instance of ScanApiHelper: _scanApi=new ScanApiHelper();
- * <li> [optional] if a UI device list is used a no device connected 
+ * <li> [optional] if a UI device list is used a no device connected
  * string can be specified:_scanApi.setNoDeviceText(getString(R.string.no_device_connected));
- * <li> register for notification: _scanApi.setNotification(_scanApiNotification);
+ * <li> register for notification: _scanApi.setDelegate(_scanApiNotification);
  * <li> derive from ScanApiHelperNotification to handle the notifications coming
  * from ScanAPI including "Device Arrival", "Device Removal", "Decoded Data" etc...
  * <li> open ScanAPI to start using it:_scanApi.open();
- * <li> check the ScanAPI initialization result in the notifications: 
+ * <li> check the ScanAPI initialization result in the notifications:
  * _scanApiNotification.onScanApiInitializeComplete(long result){}
  * <li> monitor a scanner connection by using the notifications:
  * _scanApiNotification.onDeviceArrival(long result,DeviceInfo newDevice){}
@@ -176,8 +210,8 @@
     BOOL _scanApiOpen;
     BOOL _scanApiTerminated;
     NSMutableArray* _commandContexts;
-    id<ISktScanApi>_scanApi;
-    id<ISktScanObject>_scanObjectReceived;
+    ISktScanApi* _scanApi;
+    ISktScanObject*_scanObjectReceived;
     NSObject* _commandContextsLock;
     NSMutableArray* _delegateStack;
 }
@@ -196,7 +230,7 @@
 
 /**
  * specifying a name to display when no device is connected
- * will add a no device connected item in the list with 
+ * will add a no device connected item in the list with
  * the name specified, otherwise if there is no device connected
  * the list will be empty.
  */
@@ -206,7 +240,7 @@
  * get the list of devices. If there is no device
  * connected and a text has been specified for
  * when there is no device then the list will
- * contain one item which is the no device in the 
+ * contain one item which is the no device in the
  * list
  * @return
  */
@@ -218,11 +252,11 @@
  * If no DeviceInfo matches, this method returns nil
  * @param scanObj, ScanObject received by ScanAPI that contains the
  * device information.
- * 
+ *
  * @return a device info instance or nil if no device info in the list
  * matches to the ScanObj device information.
  */
--(DeviceInfo*) getDeviceInfoFromScanObject:(id<ISktScanObject>)scanObj;
+-(DeviceInfo*) getDeviceInfoFromScanObject:(ISktScanObject*)scanObj;
 
 /**
  * check if there is a device connected
@@ -287,10 +321,10 @@
 
 /**
  * postScanApiAbort
- * 
+ *
  * Request ScanAPI to shutdown. If there is some devices connected
  * we will receive Remove event for each of them, and once all the
- * outstanding devices are closed, then ScanAPI will send a 
+ * outstanding devices are closed, then ScanAPI will send a
  * Terminate event upon which we can close this application.
  * If the ScanAPI Abort command failed, then the callback will
  * close ScanAPI
@@ -302,7 +336,7 @@
  * acknowledge the decoded data<p>
  * This is only required if the scanner Confirmation Mode is set to kSktScanDataConfirmationModeApp
  */
--(void)postSetDataConfirmation:(DeviceInfo*)deviceInfo Target:(id)target Response:(SEL)response;
+-(void)postSetDataConfirmation:(DeviceInfo*)deviceInfo goodData:(BOOL) good Target:(id)target Response:(SEL)response;
 
 /**
  * postSetSoftScanStatus
@@ -360,17 +394,17 @@
 -(void)postSetStandConfig:(DeviceInfo*)deviceInfo StandConfig:(long) standConfig Target:(id)target Response:(SEL)response;
 
 /**
- * postGetDecodeAction
- * 
+ * postGetDecodeActionDevice
+ *
  * Creates a TSktScanObject and initializes it to perform a request for the
  * Decode Action in the scanner.
- * 
+ *
  */
--(void)postGetDecodeAction:(DeviceInfo*)deviceInfo Target:(id)target Response:(SEL)response;
+-(void)postGetDecodeActionDevice:(DeviceInfo*)deviceInfo Target:(id)target Response:(SEL)response;
 
 /**
  * postGetCapabilitiesDevice
- * 
+ *
  * Creates a SktScanObject and initializes it to perform a request for the
  * Capabilities Device in the scanner.
  */
@@ -378,17 +412,17 @@
 
 /**
  * postGetPostambleDevice
- * 
+ *
  * Creates a SktScanObject and initializes it to perform a request for the
  * Postamble Device in the scanner.
- * 
+ *
  */
 -(void)postGetPostambleDevice:(DeviceInfo*)deviceInfo Target:(id)target Response:(SEL)response;
 
 
 /**
  * postSetPostamble
- * 
+ *
  * Configure the postamble of the device
  * @param deviceInfo
  * @param postamble
@@ -397,52 +431,71 @@
 
 /**
  * postGetSymbologyInfo
- * 
+ *
  * Creates a SktScanObject and initializes it to perform a request for the
  * Symbology Info in the scanner.
- * 
+ *
  */
 -(void)postGetSymbologyInfo:(DeviceInfo*)deviceInfo SymbologyId:(int)symbologyId Target:(id)target Response:(SEL)response;
 
 /**
  * postSetSymbologyInfo
  * Constructs a request object for setting the Symbology Info in the scanner
- * 
+ *
  */
 -(void)postSetSymbologyInfo:(DeviceInfo*)deviceInfo SymbologyId:(int)symbologyId Status:(BOOL)status Target:(id)target Response:(SEL)response;
 
 
 /**
  * postGetFriendlyName
- * 
+ *
  * Creates a SktScanObject and initializes it to perform a request for the
  * friendly name in the scanner.
- * 
+ *
  */
 -(void)postGetFriendlyName:(DeviceInfo*)deviceInfo Target:(id)target Response:(SEL)response;
 
-/** 
+/**
  * postSetFriendlyName
  * Constructs a request object for setting the Friendly Name in the scanner
- * 
+ *
  */
 -(void)postSetFriendlyName:(DeviceInfo*)deviceInfo FriendlyName:(NSString*)friendlyName Target:(id)target Response:(SEL)response;
 
 /**
- * postSetDecodeAction
- * 
+ * postSetDecodeActionDevice
+ *
  * Configure the local decode action of the device
- * 
+ *
  * @param deviceInfo
  * @param decodeAction
  */
--(void)postSetDecodeAction:(DeviceInfo*)deviceInfo DecodeAction:(int)decodeAction Target:(id)target Response:(SEL)response;
+-(void)postSetDecodeActionDevice:(DeviceInfo*)deviceInfo DecodeAction:(int)decodeAction Target:(id)target Response:(SEL)response;
+
+/**
+ * postGetLocalAcknowledgmentDevice
+ *
+ * Creates a SktScanObject and initializes it to perform a request for the
+ * Local Acknowledgment of the scanner.
+ *
+ */
+-(void)postGetLocalAcknowledgmentDevice:(DeviceInfo*)deviceInfo Target:(id)target Response:(SEL)response;
+
+/**
+ * postSetLocalAcknowledgmentDevice
+ *
+ * Configure the local Acknownledgment of the device
+ *
+ * @param deviceInfo
+ * @param localAcknowledgment
+ */
+-(void)postSetLocalAcknowledgmentDevice:(DeviceInfo*)deviceInfo LocalAcknowledgment:(unsigned char)localAcknowledgment Target:(id)target Response:(SEL)response;
 
 /**
  * postSetOverlayView
- * 
+ *
  * Configure the Overlay view of softscan
- * 
+ *
  * @param deviceInfo
  * @param decodeAction
  */
@@ -450,9 +503,9 @@
 
 /**
  * postSetTriggerDevice
- * 
+ *
  * start scanning
- * 
+ *
  * @param deviceInfo
  * @param decodeAction
  */
@@ -461,7 +514,7 @@
  * postGetDataEditingProfiles
  *
  * Get the list of Data Editing profiles
- * 
+ *
  */
 -(void)postGetDataEditingProfiles:(id)target Response:(SEL)response;
 
@@ -638,6 +691,52 @@
 -(void)postSetDataEditingImport:(NSString*)profile Target:(id)target Response:(SEL)response;
 
 /**
+ * postSetNotificationsForDevice
+ *
+ * Configure the Device Notifications
+ *
+ * @param deviceInfo: device to configure the notifications
+ * @param forNotifications: notifications to receive
+ */
+-(void)postSetNotificationsForDevice:(DeviceInfo*)deviceInfo forNotifications:(int)notifications Target:(id)target Response:(SEL)response;
+
+/**
+ * postGetNotificationsFromDevice
+ *
+ * Retrieve the Device Notifications
+ *
+ * @param deviceInfo: device to configure the notifications
+ */
+-(void)postGetNotificationsFromDevice:(DeviceInfo*)deviceInfo Target:(id)target Response:(SEL)response;
+
+/**
+ * postGetPowerStateFromDevice
+ *
+ * Retrieve the Device Power State
+ *
+ * @param deviceInfo: device to retrieve the power state from
+ */
+-(void)postGetPowerStateFromDevice:(DeviceInfo*)deviceInfo Target:(id)target Response:(SEL)response;
+
+/**
+ * postGetButtonsStateFromDevice
+ *
+ * Retrieve the Device Buttons State
+ *
+ * @param deviceInfo: device to retrieve the buttons state from
+ */
+-(void)postGetButtonsStateFromDevice:(DeviceInfo*)deviceInfo Target:(id)target Response:(SEL)response;
+
+/**
+ * postGetBatteryLevelFromDevice
+ *
+ * Retrieve the Device Battery Level
+ *
+ * @param deviceInfo: device to retrieve the battery level from
+ */
+-(void)postGetBatteryLevelFromDevice:(DeviceInfo*)deviceInfo Target:(id)target Response:(SEL)response;
+
+/**
  * postGetDeviceSpecific
  *
  * post a command specific to a certain type of scanner
@@ -655,13 +754,13 @@
 
 -(void)addCommand:(CommandContext*)command;
 -(void)initializeScanAPIThread:(id)arg;
--(BOOL)handleScanObject:(id<ISktScanObject>)scanObj;
--(SKTRESULT)handleDeviceArrival:(id<ISktScanObject>)scanObj;
--(SKTRESULT)handleDeviceRemoval:(id<ISktScanObject>)scanObj;
+-(BOOL)handleScanObject:(ISktScanObject*)scanObj;
+-(SKTRESULT)handleDeviceArrival:(ISktScanObject*)scanObj;
+-(SKTRESULT)handleDeviceRemoval:(ISktScanObject*)scanObj;
 
--(SKTRESULT)handleSetOrGetComplete:(id<ISktScanObject>)scanObj;
--(SKTRESULT)handleEvent:(id<ISktScanObject>)scanObj;
--(SKTRESULT)handleDecodedData:(id<ISktScanObject>)scanObj;
+-(SKTRESULT)handleSetOrGetComplete:(ISktScanObject*)scanObj;
+-(SKTRESULT)handleEvent:(ISktScanObject*)scanObj;
+-(SKTRESULT)handleDecodedData:(ISktScanObject*)scanObj;
 -(SKTRESULT)sendNextCommand;
 
 @end

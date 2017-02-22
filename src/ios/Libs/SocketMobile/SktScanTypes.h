@@ -118,23 +118,6 @@ enum ESktScanSymbologyID
 	kSktScanSymbologyLastSymbologyID
 };
 
-
-// identifies the property type
-enum ESktScanPropType
-{
-	kSktScanPropTypeNone,
-	kSktScanPropTypeNotApplicable,
-	kSktScanPropTypeByte,
-	kSktScanPropTypeUlong,
-	kSktScanPropTypeArray,
-	kSktScanPropTypeString,
-	kSktScanPropTypeVersion,
-	kSktScanPropTypeSymbology,
-	kSktScanPropTypeEnum,
-    kSktScanPropTypeObject,
-	kSktScanPropTypeLastType// just for marking the end of this enum
-};
-
 // identifies what the symbology struct contains
 enum ESktScanSymbologyFlags
 {
@@ -294,6 +277,9 @@ extern const char* kSktScanSoftScanFlashButtonId;
 extern const char* kSktScanSoftScanCancelButton;
 extern const char* kSktScanSoftScanFlashButton;
 extern const char* kSktScanSoftScanDirectionText;
+extern const char* kSktScanSoftScanBackgroundColor;//"rgb() or rgba()
+extern const char* kSktScanSoftScanTextColor;//"rgb() or rgba()
+extern const char* kSktScanSoftScanCamera; // "front" "back"
 
 #endif // _SktScanTypes_h
 

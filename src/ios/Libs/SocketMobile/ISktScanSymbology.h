@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#include "SktScanPropIds.h"
 #include "SktScanTypes.h"
 
 
-@protocol ISktScanSymbology
+@interface ISktScanSymbology : NSObject
 -(void)setID:(enum ESktScanSymbologyID)symid;
 -(enum ESktScanSymbologyID)getID;
 -(void)setFlags:(enum ESktScanSymbologyFlags)flags;

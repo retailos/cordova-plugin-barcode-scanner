@@ -1,6 +1,6 @@
 {
     "name": "barcode-scanner",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "Barcode Scanner",
     "cordova": {
         "id": "com.redant.barcodescanner",

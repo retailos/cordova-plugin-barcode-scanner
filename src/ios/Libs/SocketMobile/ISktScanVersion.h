@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol ISktScanVersion
+@interface ISktScanVersion : NSObject
 - (unsigned long) getMajor;
 - (unsigned long) getMiddle;
 - (unsigned long) getMinor;

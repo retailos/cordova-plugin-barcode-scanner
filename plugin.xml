@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="com.redant.barcodescanner"
-    version="0.0.5">
+    version="0.0.6">
     <name>Barcode Scanner</name>
     <description>Barcode Scanner</description>
     <license>Apache 2.0</license>
@@ -38,10 +38,9 @@
         <source-file src="src/ios/CDVSCannerPlugin.m" />
 
         <!-- SocketMobileSDK -->
-        <source-file src="src/ios/Libs/SocketMobile/libScanApi.a" framework="true" />
-        <header-file src="src/ios/Libs/SocketMobile/BtHelper.h" />
-        <header-file src="src/ios/Libs/SocketMobile/BtHelperWm.h" />
-        <header-file src="src/ios/Libs/SocketMobile/GenBarcode.h" />
+        <source-file src="src/ios/Libs/SocketMobile/libScanApiCore.a" framework="true" />
+        <source-file src="src/ios/Libs/SocketMobile/DeviceInfo.m" />
+        <header-file src="src/ios/Libs/SocketMobile/DeviceInfo.h"/>
         <header-file src="src/ios/Libs/SocketMobile/ISktScanApi.h" />
         <header-file src="src/ios/Libs/SocketMobile/ISktScanDecodedData.h" />
         <header-file src="src/ios/Libs/SocketMobile/ISktScanDevice.h" />
@@ -52,6 +51,9 @@
         <header-file src="src/ios/Libs/SocketMobile/ISktScanSymbology.h" />
         <header-file src="src/ios/Libs/SocketMobile/ISktScanVersion.h" />
         <header-file src="src/ios/Libs/SocketMobile/ScanAPI.h" />
+        <header-file src="src/ios/Libs/SocketMobile/ScanApiHelper.h"/>
+        <source-file src="src/ios/Libs/SocketMobile/ScanApiHelper.mm" />
+        <header-file src="src/ios/Libs/SocketMobile/ScanApiIncludes.h"/>
         <header-file src="src/ios/Libs/SocketMobile/SktClassFactory.h" />
         <header-file src="src/ios/Libs/SocketMobile/SktScanAPI.h" />
         <header-file src="src/ios/Libs/SocketMobile/SktScanCore.h" />
@@ -59,11 +61,6 @@
         <header-file src="src/ios/Libs/SocketMobile/SktScanErrors.h" />
         <header-file src="src/ios/Libs/SocketMobile/SktScanPropIds.h" />
         <header-file src="src/ios/Libs/SocketMobile/SktScanTypes.h" />
-        <header-file src="src/ios/Libs/SocketMobile/DeviceInfo.h"/>
-        <source-file src="src/ios/Libs/SocketMobile/DeviceInfo.m" />
-        <header-file src="src/ios/Libs/SocketMobile/ScanApiHelper.h"/>
-        <source-file src="src/ios/Libs/SocketMobile/ScanApiHelper.mm" />
-        <header-file src="src/ios/Libs/SocketMobile/ScanApiIncludes.h"/>
 
         <!-- LineaProSDK -->
         <source-file src="src/ios/Libs/LineaPro/libdtdev.a" framework="true" />

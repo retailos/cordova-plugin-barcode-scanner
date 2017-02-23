@@ -5,8 +5,8 @@ Main header file for Socket ScanAPI
 */
 
 #include "SktScanErrors.h"
-#include "SktScanTypes.h"
 #include "SktScanPropIds.h"
+#include "SktScanTypes.h"
 #include "SktScanDeviceType.h"
 #include "SktScanCore.h"
 

@@ -83,13 +83,12 @@ static float ScannerTimerInterval = 0.5;
     }
 }
 
-- (void)onDecodedDataResult:(long)result device:(DeviceInfo *)device decodedData:(id<ISktScanDecodedData>)decodedData {
+- (void)onDecodedDataResult:(long)result device:(DeviceInfo *)device decodedData:(ISktScanDecodedData*)decodedData {
     NSString *resultString = [NSString stringWithUTF8String:(const char *)[decodedData getData]];
     if ([self.delegate respondsToSelector:@selector(scannerFinishedWithResult:)]) {
         [self.delegate scannerFinishedWithResult:resultString ? scanResponse(resultString) : @{}];
     }
-    
-    [self.socketMobileScanner postSetDataConfirmation:device Target:nil Response:nil];
+    [self.socketMobileScanner postSetDataConfirmation:device goodData:resultString ? TRUE : FALSE Target:nil Response:nil]; 
 }
 
 - (void)onError:(SKTRESULT)result {
@@ -99,14 +98,14 @@ static float ScannerTimerInterval = 0.5;
 
 - (void)onScanApiInitializeComplete:(SKTRESULT)result {
     if (SKTSUCCESS(result)) {
-        [self.socketMobileScanner postSetConfirmationMode:kSktScanDataConfirmationModeScanAPI Target:self Response:@selector(onSetDataConfirmationMode:)];
+        [self.socketMobileScanner postSetConfirmationMode:kSktScanDataConfirmationModeApp Target:self Response:@selector(onSetDataConfirmationMode:)];
     } else {
         NSString *errorString = [NSString stringWithFormat:@"Error initializing ScanAPI: %ld",result];
         [self sendError:errorString];
     }
 }
 
-- (void)onSetDataConfirmationMode:(id<ISktScanObject>)scanObj {
+- (void)onSetDataConfirmationMode:(ISktScanObject*)scanObj {
     SKTRESULT result=[[scanObj Msg] Result];
     if(!SKTSUCCESS(result)){
         NSString *errorString = [NSString stringWithFormat:@"DataConfirmation Mode Error: %ld",result];

@@ -8,7 +8,7 @@
 #import "SktScanTypes.h"
 #import "ISktScanDecodedData.h"
 
-@protocol ISktScanEvent
+@interface ISktScanEvent : NSObject
 
 -(enum ESktScanEventID)ID;
 -(enum ESktEventDataType)getDataType;
@@ -17,5 +17,5 @@
 -(uint8_t*)getDataArrayValue;
 -(uint32_t)getDataArraySize;
 -(uint32_t)getDataLong;
--(id<ISktScanDecodedData>)getDataDecodedData;
+-(ISktScanDecodedData*)getDataDecodedData;
 @end

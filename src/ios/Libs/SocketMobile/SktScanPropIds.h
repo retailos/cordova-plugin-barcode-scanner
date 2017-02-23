@@ -5,7 +5,7 @@ Property ID definitions for Socket ScanAPI
 */
 
 /*
-NOTES: 
+NOTES:
 IF ANY MODIFICATION IS MADE IN THIS FILE THE SCANAPI INTERFACE VERSION
 WILL NEED TO BE UPDATED TO IDENTIFY THIS CHANGE.
 THE SCANAPI INTERFACE VERSION IS DEFINED IN SktScanAPI.h
@@ -15,11 +15,11 @@ THE MODIFICATION MUST BE DESCRIBED IN ScanAPI.doc
 /*
 Definition of a Socket Scan Prop ID
 
-  31  30  29  28  27  26  25  24  23  22  21  20  19  18  17  16  15  14  13  12  11  10  9   8   7   6   5   4   3   2   1   0 
+  31  30  29  28  27  26  25  24  23  22  21  20  19  18  17  16  15  14  13  12  11  10  9   8   7   6   5   4   3   2   1   0
 ---------------------------------------------------------------------------------------------------------------------------------
 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 ---------------------------------------------------------------------------------------------------------------------------------
-  |	  |                       |   |           |   |           |   |           |   |           |    |                           |  
+  |	  |                       |   |           |   |           |   |           |   |           |    |                           |
   |   \=======================/   \===========/   \===========/   \===========/   \===========/    \===========================/
   |               |                     |               |              |               |                         |
   |               |                     |               |              |               | Group ID                \------------------>Property ID
@@ -34,108 +34,31 @@ Definition of a Socket Scan Prop ID
 #ifndef _SktScanPropIds_h
 #define _SktScanPropIds_h
 
-#define SKTPROPIDSCANAPI(scanApi)		(scanApi<<31)
-#define SKTGETTYPE(type)				(type<<20)
-#define SKTSETTYPE(type)				(type<<16)
-#define SKTSETGROUPID(groupId)			(groupId<<8)
-#define SKTSETPROPID(propId)			(propId)
-#define SKTISSCANAPI(propId)			(propId>>31)
-#define SKTRETRIEVEID(propId)			(propId&0x000000ff)
-#define SKTRETRIEVESETTYPE(propId)		((propId>>16)&0x0000000f)
-#define SKTRETRIEVEGETTYPE(propId)		((propId>>20)&0x0000000f)
-#define SKTRETRIEVEGROUPID(groupId)		((groupId>>8)&0x0000000f)
-
-// group IDs for properties
-enum
-{
-	kSktScanGroupGeneral,
-	kSktScanGroupLocalFunctions
-};
-
-// properties for the ScanAPI General Group
-enum
-{
-	kSktScanIdAbort,
-	kSktScanIdVersion,
-	kSktScanIdInterfaceVersion,
-	kSktScanIdConfiguration,
-	kSktScanIdDataConfirmationMode,
-	kSktScanIdDataConfirmationAction,
-	kSktScanIdMonitorMode,				// new
-	kSktScanIdSoftScanStatus,			// new
-	kSktScanIdSymbologyInfo,			// newer
-	kSktScanIdDataEditingProfile,		// new
-	kSktScanIdDataEditingCurrentProfile,
-	kSktScanIdDataEditingTriggerSymbologies,
-	kSktScanIdDataEditingTriggerMinLength,
-	kSktScanIdDataEditingTriggerMaxLength,
-	kSktScanIdDataEditingTriggerStartsBy,
-	kSktScanIdDataEditingTriggerEndsWith,
-	kSktScanIdDataEditingTriggerContains,
-	kSktScanIdDataEditingOperation,
-	kSktScanIdDataEditingImportExport,
-	kSktScanLastGeneralGroup
-};
-
-// properties for the device General Group
-enum
-{
-	kSktScanIdDeviceVersion,
-	kSktScanIdDeviceInterfaceVersion,
-	kSktScanIdDeviceType,
-	kSktScanIdDeviceSpecific,
-	kSktScanIdDeviceSymbology,
-	kSktScanIdDeviceTrigger,
-	kSktScanIdDeviceApplyConfig,
-	kSktScanIdDevicePreamble,
-	kSktScanIdDevicePostamble,
-	kSktScanIdDeviceCapabilities,
-	kSktScanIdDeviceChangeId,
-	kSktScanIdDeviceDataFormat,
-	kSktScanLastDeviceGeneralGroup
-};
-
-// properties for the Local Functions Group
-enum
-{
-	kSktScanIdDeviceFriendlyName,
-	kSktScanIdDeviceSecurityMode,
-	kSktScanIdDevicePinCode,
-	kSktScanIdDeviceDeletePairingBonding,
-	kSktScanIdDeviceRestoreFactoryDefaults,
-	kSktScanIdDeviceSetPowerOff,
-	kSktScanIdDeviceButtonsStatus,
-	kSktScanIdDeviceSoundConfig,
-	kSktScanIdDeviceTimers,
-	kSktScanIdDeviceLocalAcknowledgement,
-	kSktScanIdDeviceDataConfirmation,
-	kSktScanIdDeviceBatteryLevel,
-	kSktScanIdDeviceLocalDecodeAction,
-	kSktScanIdDeviceBluetoothAddress,
-	kSktScanIdDeviceStatisticCounters,
-	kSktScanIdDeviceRumbleConfig,
-	kSktScanIdDeviceProfileConfig,
-	kSktScanIdDeviceDisconnect,
-	kSktScanIdDeviceDataStore,
-	kSktScanIdDeviceNotifications,
-	kSktScanIdDeviceConnectReason,
-	kSktScanIdDevicePowerState,			
-	kSktScanIdDeviceStartUpRoleSPP,
-	kSktScanIdDeviceConnectionBeepConfig,
-	kSktScanIdDeviceFlash,		
-	kSktScanIdDeviceOverlayView,			
-	kSktScanIdDeviceStandConfig,					// new
-	kSktScanLastDeviceLocalFunctions
-};
+#ifdef __cplusplus
+extern "C" {
+#endif
+long SKTPROPIDSCANAPI(const long scanApi);
+long SKTGETTYPE(const long type);
+long SKTSETTYPE(const long type);
+long SKTSETGROUPID(const long groupId);
+long SKTSETPROPID(const long propId);
+long SKTISSCANAPI(const long propId);
+long SKTRETRIEVEID(const long propId);
+long SKTRETRIEVESETTYPE(const long propId);
+long SKTRETRIEVEGETTYPE(const long propId);
+long SKTRETRIEVEGROUPID(const long groupId);
 
 // ScanAPI configuration
-#define kSktScanConfigSerialComPort "SerialPorts"	// indicates which com port ScanAPI listens
-#define kSktScanConfigPath			"ConfigPath"	// indicates where ScanAPI config file is located
+extern const char* kSktScanConfigSerialComPort;		// indicates which com port ScanAPI listens
+extern const char* kSktScanConfigPath;				// indicates where ScanAPI config file is located
 
 // Monitor Debug -only available on build with traces turned on-
-#define kSktScanConfigMonitorDbgLevel			"MonitorDbgLevel"			// indicates what ScanAPI monitor Debug Level should be used
-#define kSktScanConfigMonitorDbgFileLineLevel	"MonitorDbgFileLineLevel"	// indicates what ScanAPI monitor Debug File Line level should be used
-#define kSktScanConfigMonitorDbgChannel			"MonitorDbgChannel"			// indicates what ScanAPI monitor Debug Channel should be used
+extern const char* kSktScanConfigMonitorDbgLevel;			// indicates what ScanAPI monitor Debug Level should be used
+extern const char* kSktScanConfigMonitorDbgFileLineLevel;	// indicates what ScanAPI monitor Debug File Line level should be used
+extern const char* kSktScanConfigMonitorDbgChannel;			// indicates what ScanAPI monitor Debug Channel should be used
+#ifdef __cplusplus
+}
+#endif
 
 
 // Data Confirmation Mode indicates what is
@@ -253,26 +176,32 @@ enum
     kSktScanSoftScanSupported=3// make the SoftScan feature supported (Set property only)
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 // Macros to build a Data Confirmation or to extract fields
 // from the Data Confirmation. Note: reserved should be set to 0.
-#define SKTDATACONFIRMATION(reserved,rumble,beep,led) ((reserved<<6)|(rumble<<4)|(beep<<2)|led)
-#define SKTDATACONFIRMATION_LED(dataConfirmation) (dataConfirmation&0x03)
-#define SKTDATACONFIRMATION_BEEP(dataConfirmation) ((dataConfirmation>>2)&0x03)
-#define SKTDATACONFIRMATION_RUMBLE(dataConfirmation) ((dataConfirmation>>4)&0x03)
+unsigned long SKTDATACONFIRMATION(unsigned char reserved, unsigned char rumble, unsigned char beep, unsigned char led);
+unsigned char SKTDATACONFIRMATION_LED(unsigned long dataConfirmation);
+unsigned char SKTDATACONFIRMATION_BEEP(unsigned long dataConfirmation);
+unsigned char SKTDATACONFIRMATION_RUMBLE(unsigned long dataConfirmation);
 
 
 // Macros to retrieve the Buttons status
-#define SKTBUTTON_ISLEFTPRESSED(buttonsStatus)	((buttonsStatus&0x01)==0x01)
-#define SKTBUTTON_ISRIGHTPRESSED(buttonsStatus)	((buttonsStatus&0x02)==0x02)
-#define SKTBUTTON_ISMIDDLEPRESSED(buttonsStatus)((buttonsStatus&0x04)==0x04)
-#define SKTBUTTON_ISPOWERPRESSED(buttonsStatus)	((buttonsStatus&0x08)==0x08)
-#define SKTBUTTON_ISRINGDETACHED(buttonsStatus)	((buttonsStatus&0x10)==0x10)
+bool SKTBUTTON_ISLEFTPRESSED(unsigned char buttonsStatus);
+bool SKTBUTTON_ISRIGHTPRESSED(unsigned char buttonsStatus);
+bool SKTBUTTON_ISMIDDLEPRESSED(unsigned char buttonsStatus);
+bool SKTBUTTON_ISPOWERPRESSED(unsigned char buttonsStatus);
+bool SKTBUTTON_ISRINGDETACHED(unsigned char buttonsStatus);
 
-#define SKTBUTTON_LEFTPRESSED(pressed)			(pressed&0x01)
-#define SKTBUTTON_RIGHTPRESSED(pressed)			((pressed<<1)&0x02)
-#define SKTBUTTON_MIDDLEPRESSED(pressed)		((pressed<<2)&0x04)
-#define SKTBUTTON_POWERPRESSED(pressed)			((pressed<<3)&0x08)
-#define SKTBUTTON_RINGDETACHED(detached)		((detached<<4)&0x10)
+unsigned char SKTBUTTON_LEFTPRESSED(unsigned char pressed);
+unsigned char SKTBUTTON_RIGHTPRESSED(unsigned char pressed);
+unsigned char SKTBUTTON_MIDDLEPRESSED(unsigned char pressed);
+unsigned char SKTBUTTON_POWERPRESSED(unsigned char pressed);
+unsigned char SKTBUTTON_RINGDETACHED(unsigned char detached);
+#ifdef __cplusplus
+}
+#endif
 
 // Power State
 enum
@@ -283,17 +212,23 @@ enum
 	kSktScanPowerStatusOnAc=		0x04
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 // Macros to retrieve the Power status
-#define SKTPOWER_GETSTATE(powerStatus)		(unsigned char)(powerStatus&0x000000FF)
-#define SKTPOWER_SETSTATE(powerStatus)		(powerStatus&0x000000FF)
+unsigned char SKTPOWER_GETSTATE(unsigned long powerStatus);
+unsigned long SKTPOWER_SETSTATE(unsigned long powerStatus);
 
 // Macro to retrieve the Battery Level
-#define SKTBATTERY_GETMINLEVEL(powerStatus)	(unsigned char)(powerStatus>>16)
-#define SKTBATTERY_GETMAXLEVEL(powerStatus)	(unsigned char)(powerStatus>>24)
-#define SKTBATTERY_GETCURLEVEL(powerStatus)	(unsigned char)(powerStatus>>8)
-#define SKTBATTERY_SETMINLEVEL(powerStatus)	((powerStatus&0x000000FF)<<16)
-#define SKTBATTERY_SETMAXLEVEL(powerStatus)	((powerStatus&0x000000FF)<<24)
-#define SKTBATTERY_SETCURLEVEL(powerStatus)	((powerStatus&0x000000FF)<<8)
+unsigned char SKTBATTERY_GETMINLEVEL(unsigned long powerStatus);
+unsigned char SKTBATTERY_GETMAXLEVEL(unsigned long powerStatus);
+unsigned char SKTBATTERY_GETCURLEVEL(unsigned long powerStatus);
+unsigned long SKTBATTERY_SETMINLEVEL(unsigned long powerStatus);
+unsigned long SKTBATTERY_SETMAXLEVEL(unsigned long powerStatus);
+unsigned long SKTBATTERY_SETCURLEVEL(unsigned long powerStatus);
+#ifdef __cplusplus
+}
+#endif
 
 
 //Monitor property
@@ -399,12 +334,12 @@ enum
 // notifications masks
 enum
 {
-    kSktScanNotificationsScanButtonPress      = 1 << 0,       // Enable scan button press notifications       
-    kSktScanNotificationsScanButtonRelease    = 1 << 1,       // Enable scan button release notifications     
-    kSktScanNotificationsPowerButtonPress     = 1 << 2,       // Enable power button release notifications    
-    kSktScanNotificationsPowerButtonRelease   = 1 << 3,       // Enable power button release notifications    
-    kSktScanNotificationsPowerState           = 1 << 4,       // Enable power state change notifications      
-    kSktScanNotificationsBatteryLevelChange   = 1 << 5        // Enable battery level change notifications    
+    kSktScanNotificationsScanButtonPress      = 1 << 0,       // Enable scan button press notifications
+    kSktScanNotificationsScanButtonRelease    = 1 << 1,       // Enable scan button release notifications
+    kSktScanNotificationsPowerButtonPress     = 1 << 2,       // Enable power button release notifications
+    kSktScanNotificationsPowerButtonRelease   = 1 << 3,       // Enable power button release notifications
+    kSktScanNotificationsPowerState           = 1 << 4,       // Enable power state change notifications
+    kSktScanNotificationsBatteryLevelChange   = 1 << 5        // Enable battery level change notifications
 };
 
 // timer identifications
@@ -458,25 +393,25 @@ enum
 };
 
 // Stand Config
-// 0 - Mobile mode Works like today existing firmware Engine is always in 
+// 0 - Mobile mode Works like today existing firmware Engine is always in
 //     trigger mode Engine hibernate enabled
-// 1 - Stand mode Engine always in presentation mode Engine hibernate 
-//     disabled Scanner turns on immediately Power timers disabled Connection 
+// 1 - Stand mode Engine always in presentation mode Engine hibernate
+//     disabled Scanner turns on immediately Power timers disabled Connection
 //     retries forever
-// 2 - Detect mode On stand engine in presentation mode On stand engine 
-//     hibernate disabled On stand charging led state not show On stand 
-//     scanner turns on immediately On stand power timers disabled On stand 
-//     connection retries forever Off stand engine in level mode Off stand 
-//     battery led state reported Off stand engine hibernate enabled Off stand 
-//     power off timers running Off stand connection retries halt after max 
+// 2 - Detect mode On stand engine in presentation mode On stand engine
+//     hibernate disabled On stand charging led state not show On stand
+//     scanner turns on immediately On stand power timers disabled On stand
+//     connection retries forever Off stand engine in level mode Off stand
+//     battery led state reported Off stand engine hibernate enabled Off stand
+//     power off timers running Off stand connection retries halt after max
 //     count
-// 3 - Auto mode On stand engine in presentation mode On stand engine hibernate 
-//     disabled On stand charging led state not show On stand scanner turns on 
-//     immediately On stand power timers disabled On stand connection retries 
-//     forever Off stand does nothing, engine remains in presentation mode Off 
-//     stand trigger press causes engine to enter level mode Engine in level 
-//     mode battery led state reported Engine in level mode hibernate enabled 
-//     Engine in level mode power off timers running Engine in level mode 
+// 3 - Auto mode On stand engine in presentation mode On stand engine hibernate
+//     disabled On stand charging led state not show On stand scanner turns on
+//     immediately On stand power timers disabled On stand connection retries
+//     forever Off stand does nothing, engine remains in presentation mode Off
+//     stand trigger press causes engine to enter level mode Engine in level
+//     mode battery led state reported Engine in level mode hibernate enabled
+//     Engine in level mode power off timers running Engine in level mode
 //     connection retries halt after max count
 enum
 {
@@ -486,72 +421,162 @@ enum
 	kSktScanStandConfigAutoMode=3
 };
 
-//==========================================================================================================================================================================================================================================================
-//			Property ID									ScanAPI?			Data Type for Get							Data Type for Set							Group ID										Internal Prop ID
-//==========================================================================================================================================================================================================================================================
-// ScanAPI General Properties
-#define kSktScanPropIdAbort							(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETTYPE(kSktScanPropTypeNone)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdAbort))
-#define kSktScanPropIdVersion						(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdVersion))
-#define kSktScanPropIdInterfaceVersion				(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdInterfaceVersion))
-#define kSktScanPropIdConfiguration					(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeString)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdConfiguration))
-#define kSktScanPropIdDataConfirmationMode			(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataConfirmationMode))
-#define kSktScanPropIdDataConfirmationAction		(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeUlong)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataConfirmationAction))
-#define kSktScanPropIdMonitorMode					(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeByte)			|SKTSETTYPE(kSktScanPropTypeArray)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdMonitorMode))
-#define kSktScanPropIdSoftScanStatus				(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdSoftScanStatus))
+#ifdef __cplusplus
+extern "C" {
+#endif
+//========================================================
+//			Property ID
+//========================================================
+// Property Types
+enum ESktScanPropType {
+	kSktScanPropTypeByte = 2,
+	kSktScanPropTypeEnum = 8,
+	kSktScanPropTypeArray = 4,
+	kSktScanPropTypeVersion = 6,
+	kSktScanPropTypeSymbology = 7,
+	kSktScanPropTypeUlong = 3,
+	kSktScanPropTypeObject = 9,
+	kSktScanPropTypeLastType = 10,
+	kSktScanPropTypeNotApplicable = 1,
+	kSktScanPropTypeNone = 0,
+	kSktScanPropTypeString = 5,
+};
 
-// ScanAPI Data Editing Properties
-#define kSktScanPropIdDataEditingProfile			(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataEditingProfile))
-#define kSktScanPropIdDataEditingCurrentProfile		(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataEditingCurrentProfile))
-#define kSktScanPropIdDataEditingTriggerSymbologies	(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeString)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataEditingTriggerSymbologies))
-#define kSktScanPropIdDataEditingTriggerMinLength	(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeString)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataEditingTriggerMinLength))
-#define kSktScanPropIdDataEditingTriggerMaxLength	(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeString)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataEditingTriggerMaxLength))
-#define kSktScanPropIdDataEditingTriggerStartsBy	(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeString)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataEditingTriggerStartsBy))
-#define kSktScanPropIdDataEditingTriggerEndsWith	(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeString)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataEditingTriggerEndsWith))
-#define kSktScanPropIdDataEditingTriggerContains	(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeString)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataEditingTriggerContains))
-#define kSktScanPropIdDataEditingOperation			(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeString)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataEditingOperation))
-#define kSktScanPropIdDataEditingImportExport		(SKTPROPIDSCANAPI(1)|SKTGETTYPE(kSktScanPropTypeString)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDataEditingImportExport))
+// Group IDs
+enum {
+	kSktScanGroupLocalFunctions=1,
+	kSktScanGroupGeneral=0,
+};
 
-// Device General Properties
-#define kSktScanPropIdVersionDevice					(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDeviceVersion))
-#define kSktScanPropIdDeviceType					(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDeviceType))
-#define kSktScanPropIdDeviceSpecific				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeArray)			|SKTSETTYPE(kSktScanPropTypeArray)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDeviceSpecific))
-#define kSktScanPropIdSymbologyDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeSymbology)		|SKTSETTYPE(kSktScanPropTypeSymbology)		|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDeviceSymbology))
-#define kSktScanPropIdTriggerDevice					(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDeviceTrigger))
-#define kSktScanPropIdApplyConfigDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETTYPE(kSktScanPropTypeNone)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDeviceApplyConfig))
-#define kSktScanPropIdPreambleDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDevicePreamble))
-#define kSktScanPropIdPostambleDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDevicePostamble))
-#define kSktScanPropIdCapabilitiesDevice			(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeByte)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDeviceCapabilities))
-#define kSktScanPropIdChangeIdDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDeviceChangeId))
-#define kSktScanPropIdDataFormatDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupGeneral)			|SKTSETPROPID(kSktScanIdDeviceDataFormat))
+// Properties
+enum {
+	kSktScanIdConfiguration=3,
+	kSktScanIdDeviceSecurityMode=1,
+	kSktScanIdDeviceConnectReason=20,
+	kSktScanIdDeviceConnectionBeepConfig=23,
+	kSktScanIdDeviceStartUpRoleSPP=22,
+	kSktScanIdDataConfirmationAction=5,
+	kSktScanIdDataEditingCurrentProfile=10,
+	kSktScanIdAbort=0,
+	kSktScanIdDeviceCapabilities=9,
+	kSktScanIdDeviceRestoreFactoryDefaults=4,
+	kSktScanIdDataEditingProfile=9,
+	kSktScanIdDeviceProfileConfig=16,
+	kSktScanIdDevicePostamble=8,
+	kSktScanIdDeviceType=2,
+	kSktScanIdDeviceDeletePairingBonding=3,
+	kSktScanIdDeviceDataConfirmation=10,
+	kSktScanIdDeviceBluetoothAddress=13,
+	kSktScanIdDeviceDataStore=18,
+	kSktScanIdDeviceRumbleConfig=15,
+	kSktScanIdDataEditingTriggerMinLength=12,
+	kSktScanIdDataEditingTriggerSymbologies=11,
+	kSktScanIdInterfaceVersion=2,
+	kSktScanIdDeviceSoundConfig=7,
+	kSktScanIdDevicePowerState=21,
+	kSktScanIdDeviceLocalAcknowledgement=9,
+	kSktScanIdDataEditingImportExport=18,
+	kSktScanIdDataEditingTriggerEndsWith=15,
+	kSktScanIdDeviceApplyConfig=6,
+	kSktScanIdDataEditingTriggerContains=16,
+	kSktScanIdDevicePinCode=2,
+	kSktScanIdDeviceSpecific=3,
+	kSktScanIdDeviceTimers=8,
+	kSktScanIdSoftScanStatus=7,
+	kSktScanIdMonitorMode=6,
+	kSktScanIdSymbologyInfo=8,
+	kSktScanIdDataEditingOperation=17,
+	kSktScanLastDeviceGeneralGroup=12,
+	kSktScanIdDeviceChangeId=10,
+	kSktScanIdDataEditingTriggerStartsBy=14,
+	kSktScanIdDeviceFlash=24,
+	kSktScanIdDeviceFriendlyName=0,
+	kSktScanIdDeviceBatteryLevel=11,
+	kSktScanIdDevicePreamble=7,
+	kSktScanIdDataConfirmationMode=4,
+	kSktScanIdVersion=1,
+	kSktScanIdDeviceSetPowerOff=5,
+	kSktScanIdDeviceStatisticCounters=14,
+	kSktScanIdDeviceTrigger=5,
+	kSktScanIdDeviceDisconnect=17,
+	kSktScanIdDeviceNotifications=19,
+	kSktScanIdDeviceStandConfig=26,
+	kSktScanIdDeviceOverlayView=25,
+	kSktScanIdDeviceDataFormat=11,
+	kSktScanIdDeviceInterfaceVersion=1,
+	kSktScanIdDeviceButtonsStatus=6,
+	kSktScanIdDeviceVersion=0,
+	kSktScanIdDeviceSymbology=4,
+	kSktScanIdDataEditingTriggerMaxLength=13,
+	kSktScanLastDeviceLocalFunctions=27,
+	kSktScanLastGeneralGroup=19,
+	kSktScanIdDeviceLocalDecodeAction=12,
+};
 
-// Device Local Function Properties
-#define kSktScanPropIdFriendlyNameDevice			(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceFriendlyName))
-#define kSktScanPropIdSecurityModeDevice			(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceSecurityMode))
-#define kSktScanPropIdPinCodeDevice					(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETTYPE(kSktScanPropTypeString)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDevicePinCode))
-#define kSktScanPropIdDeletePairingBondingDevice	(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceDeletePairingBonding))
-#define kSktScanPropIdRestoreFactoryDefaultsDevice	(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETTYPE(kSktScanPropTypeNone)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceRestoreFactoryDefaults))
-#define kSktScanPropIdSetPowerOffDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETTYPE(kSktScanPropTypeNone)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceSetPowerOff))
-#define kSktScanPropIdButtonsStatusDevice			(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceButtonsStatus))
-#define kSktScanPropIdSoundConfigDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeByte)			|SKTSETTYPE(kSktScanPropTypeArray)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceSoundConfig))
-#define kSktScanPropIdTimersDevice					(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeArray)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceTimers))
-#define kSktScanPropIdLocalAcknowledgmentDevice		(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceLocalAcknowledgement))
-#define kSktScanPropIdDataConfirmationDevice		(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETTYPE(kSktScanPropTypeUlong)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceDataConfirmation))
-#define kSktScanPropIdBatteryLevelDevice			(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceBatteryLevel))
-#define kSktScanPropIdLocalDecodeActionDevice		(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceLocalDecodeAction))
-#define kSktScanPropIdBluetoothAddressDevice		(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceBluetoothAddress))
-#define kSktScanPropIdStatisticCountersDevice		(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceStatisticCounters))
-#define kSktScanPropIdRumbleConfigDevice			(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeByte)			|SKTSETTYPE(kSktScanPropTypeArray)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceRumbleConfig))
-#define kSktScanPropIdProfileConfigDevice			(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeArray)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceProfileConfig))
-#define kSktScanPropIdDisconnectDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceDisconnect))
-#define kSktScanPropIdDataStoreDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeArray)			|SKTSETTYPE(kSktScanPropTypeArray)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceDataStore))
-#define kSktScanPropIdNotificationsDevice			(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeUlong)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceNotifications))
-#define kSktScanPropIdConnectReasonDevice			(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceConnectReason))
-#define kSktScanPropIdPowerStateDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeNotApplicable)	|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDevicePowerState))
-#define kSktScanPropIdStartUpRoleSPPDevice			(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceStartUpRoleSPP))
-#define kSktScanPropIdConnectionBeepConfigDevice	(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceConnectionBeepConfig))
-#define kSktScanPropIdFlashDevice					(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeByte)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceFlash))
-#define kSktScanPropIdOverlayViewDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeObject)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceOverlayView))
-#define kSktScanPropIdStandConfigDevice				(SKTPROPIDSCANAPI(0)|SKTGETTYPE(kSktScanPropTypeNone)			|SKTSETTYPE(kSktScanPropTypeUlong)			|SKTSETGROUPID(kSktScanGroupLocalFunctions)		|SKTSETPROPID(kSktScanIdDeviceStandConfig))
+// Property IDs
+enum {
+	kSktScanPropIdAbort = -2146435072,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeNotApplicable)|SKTSETTYPE(kSktScanPropTypeNone)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdAbort)
+	kSktScanPropIdVersion = -2147418111,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdVersion)
+	kSktScanPropIdInterfaceVersion = -2147418110,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdInterfaceVersion)
+	kSktScanPropIdConfiguration = -2141913085,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeString)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdConfiguration)
+	kSktScanPropIdDataConfirmationMode = -2147352572,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataConfirmationMode)
+	kSktScanPropIdDataConfirmationAction = -2147287035,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeUlong)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataConfirmationAction)
+	kSktScanPropIdMonitorMode = -2145124346,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeByte)|SKTSETTYPE(kSktScanPropTypeArray)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdMonitorMode)
+	kSktScanPropIdSoftScanStatus = -2147352569,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdSoftScanStatus)
+	kSktScanPropIdDataEditingProfile = -2147155959,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataEditingProfile)
+	kSktScanPropIdDataEditingCurrentProfile = -2147155958,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataEditingCurrentProfile)
+	kSktScanPropIdDataEditingTriggerSymbologies = -2141913077,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeString)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataEditingTriggerSymbologies)
+	kSktScanPropIdDataEditingTriggerMinLength = -2141913076,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeString)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataEditingTriggerMinLength)
+	kSktScanPropIdDataEditingTriggerMaxLength = -2141913075,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeString)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataEditingTriggerMaxLength)
+	kSktScanPropIdDataEditingTriggerStartsBy = -2141913074,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeString)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataEditingTriggerStartsBy)
+	kSktScanPropIdDataEditingTriggerEndsWith = -2141913073,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeString)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataEditingTriggerEndsWith)
+	kSktScanPropIdDataEditingTriggerContains = -2141913072,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeString)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataEditingTriggerContains)
+	kSktScanPropIdDataEditingOperation = -2141913071,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeString)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataEditingOperation)
+	kSktScanPropIdDataEditingImportExport = -2141913070,		// SKTPROPIDSCANAPI(True)|SKTGETTYPE(kSktScanPropTypeString)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDataEditingImportExport)
+	kSktScanPropIdVersionDevice = 65536,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDeviceVersion)
+	kSktScanPropIdDeviceType = 65538,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDeviceType)
+	kSktScanPropIdDeviceSpecific = 4456451,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeArray)|SKTSETTYPE(kSktScanPropTypeArray)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDeviceSpecific)
+	kSktScanPropIdSymbologyDevice = 7798788,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeSymbology)|SKTSETTYPE(kSktScanPropTypeSymbology)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDeviceSymbology)
+	kSktScanPropIdTriggerDevice = 1179653,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNotApplicable)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDeviceTrigger)
+	kSktScanPropIdApplyConfigDevice = 1048582,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNotApplicable)|SKTSETTYPE(kSktScanPropTypeNone)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDeviceApplyConfig)
+	kSktScanPropIdPreambleDevice = 327687,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDevicePreamble)
+	kSktScanPropIdPostambleDevice = 327688,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDevicePostamble)
+	kSktScanPropIdCapabilitiesDevice = 2162697,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeByte)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDeviceCapabilities)
+	kSktScanPropIdChangeIdDevice = 65546,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDeviceChangeId)
+	kSktScanPropIdDataFormatDevice = 131083,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupGeneral)|SKTSETPROPID(kSktScanIdDeviceDataFormat)
+	kSktScanPropIdFriendlyNameDevice = 327936,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceFriendlyName)
+	kSktScanPropIdSecurityModeDevice = 131329,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceSecurityMode)
+	kSktScanPropIdPinCodeDevice = 1376514,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNotApplicable)|SKTSETTYPE(kSktScanPropTypeString)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDevicePinCode)
+	kSktScanPropIdDeletePairingBondingDevice = 1179907,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNotApplicable)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceDeletePairingBonding)
+	kSktScanPropIdRestoreFactoryDefaultsDevice = 1048836,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNotApplicable)|SKTSETTYPE(kSktScanPropTypeNone)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceRestoreFactoryDefaults)
+	kSktScanPropIdSetPowerOffDevice = 1048837,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNotApplicable)|SKTSETTYPE(kSktScanPropTypeNone)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceSetPowerOff)
+	kSktScanPropIdButtonsStatusDevice = 65798,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceButtonsStatus)
+	kSktScanPropIdSoundConfigDevice = 2359559,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeByte)|SKTSETTYPE(kSktScanPropTypeArray)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceSoundConfig)
+	kSktScanPropIdTimersDevice = 262408,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeArray)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceTimers)
+	kSktScanPropIdLocalAcknowledgmentDevice = 131337,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceLocalAcknowledgement)
+	kSktScanPropIdDataConfirmationDevice = 1245450,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNotApplicable)|SKTSETTYPE(kSktScanPropTypeUlong)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceDataConfirmation)
+	kSktScanPropIdBatteryLevelDevice = 65803,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceBatteryLevel)
+	kSktScanPropIdLocalDecodeActionDevice = 131340,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceLocalDecodeAction)
+	kSktScanPropIdBluetoothAddressDevice = 65805,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceBluetoothAddress)
+	kSktScanPropIdStatisticCountersDevice = 65806,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceStatisticCounters)
+	kSktScanPropIdRumbleConfigDevice = 2359567,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeByte)|SKTSETTYPE(kSktScanPropTypeArray)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceRumbleConfig)
+	kSktScanPropIdProfileConfigDevice = 262416,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeArray)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceProfileConfig)
+	kSktScanPropIdDisconnectDevice = 1179921,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNotApplicable)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceDisconnect)
+	kSktScanPropIdDataStoreDevice = 4456722,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeArray)|SKTSETTYPE(kSktScanPropTypeArray)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceDataStore)
+	kSktScanPropIdNotificationsDevice = 196883,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeUlong)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceNotifications)
+	kSktScanPropIdConnectReasonDevice = 65812,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceConnectReason)
+	kSktScanPropIdPowerStateDevice = 65813,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeNotApplicable)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDevicePowerState)
+	kSktScanPropIdStartUpRoleSPPDevice = 131350,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceStartUpRoleSPP)
+	kSktScanPropIdConnectionBeepConfigDevice = 131351,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceConnectionBeepConfig)
+	kSktScanPropIdFlashDevice = 131352,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeByte)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceFlash)
+	kSktScanPropIdOverlayViewDevice = 590105,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeObject)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceOverlayView)
+	kSktScanPropIdStandConfigDevice = 196890,		// SKTPROPIDSCANAPI(False)|SKTGETTYPE(kSktScanPropTypeNone)|SKTSETTYPE(kSktScanPropTypeUlong)|SKTSETGROUPID(kSktScanGroupLocalFunctions)|SKTSETPROPID(kSktScanIdDeviceStandConfig)
+};
 
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif //_SktScanPropIds_h

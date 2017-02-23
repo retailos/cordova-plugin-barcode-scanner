@@ -63,6 +63,9 @@ enum
 	kSktScanDeviceTypeProductIdSoftScan,
 	kSktScanDeviceTypeProductId8ci,
 	kSktScanDeviceTypeProductId8qi,
+	kSktScanDeviceTypeProductIdD700,
+	kSktScanDeviceTypeProductIdD730,
+	kSktScanDeviceTypeProductIdD750,
 	kSktScanDeviceTypeUnknown
 };
 
@@ -75,6 +78,9 @@ enum
 #define kSktScanDeviceTypeSoftScan		(SKTINTERFACETYPE(kSktScanDeviceTypeInterfaceNone)|SKTPRODUCTID(kSktScanDeviceTypeProductIdSoftScan))
 #define kSktScanDeviceTypeScanner8ci	(SKTINTERFACETYPE(kSktScanDeviceTypeInterfaceBluetooth)|SKTPRODUCTID(kSktScanDeviceTypeProductId8ci))
 #define	kSktScanDeviceTypeScanner8qi	(SKTINTERFACETYPE(kSktScanDeviceTypeInterfaceBluetooth)|SKTPRODUCTID(kSktScanDeviceTypeProductId8qi))
+#define	kSktScanDeviceTypeScannerD700	(SKTINTERFACETYPE(kSktScanDeviceTypeInterfaceBluetooth)|SKTPRODUCTID(kSktScanDeviceTypeProductIdD700))
+#define	kSktScanDeviceTypeScannerD730	(SKTINTERFACETYPE(kSktScanDeviceTypeInterfaceBluetooth)|SKTPRODUCTID(kSktScanDeviceTypeProductIdD730))
+#define	kSktScanDeviceTypeScannerD750	(SKTINTERFACETYPE(kSktScanDeviceTypeInterfaceBluetooth)|SKTPRODUCTID(kSktScanDeviceTypeProductIdD750))
 #define kSktScanDeviceTypeBtUnknown		(SKTINTERFACETYPE(kSktScanDeviceTypeInterfaceBluetooth)|SKTPRODUCTID(kSktScanDeviceTypeUnknown))
 
 #endif //_SktScanDeviceType_h

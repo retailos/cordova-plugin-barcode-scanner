@@ -42,7 +42,7 @@ enum {
     enum ESktScanSymbologyID _id;
     BOOL _enabled;
 }
--(SymbologyInfo*)initWithSymbology:(id<ISktScanSymbology>)symbology;
+-(SymbologyInfo*)initWithSymbology:(ISktScanSymbology*)symbology;
 
 -(NSString*)getName;
 -(void)setName:(NSString*) name;
@@ -60,7 +60,7 @@ enum {
     NSMutableData* _data;
     int _length;
 }
--(DecodedDataInfo*)initWithDecodedData:(id<ISktScanDecodedData>)decodedData;
+-(DecodedDataInfo*)initWithDecodedData:(ISktScanDecodedData*)decodedData;
 
 -(NSString*)getSymbologyName;
 -(void)setSymbologyName:(NSString*)symbologyName;
@@ -76,13 +76,13 @@ enum {
 @protocol ISktScanDevice;
 @interface DeviceInfo : NSObject {
 
-	id<ISktScanDevice> _device;
+	ISktScanDevice* _device;
 	id<Notification> _notification;
 
     // device properties
 	NSString* _name;
 	long _type;
-	
+
 	NSString *_bdAddress;
 	NSString *_version;
 	NSString *_batterylevel;
@@ -91,9 +91,9 @@ enum {
 	BOOL _rumbleSupport;
 	NSString *_postamble;
 	DecodedDataInfo* _decodedData;
-    
+
     NSMutableArray* _symbologies;
-    
+
     long _setPropertyId;
     long _setPropertyError;
     short* _healthValues;
@@ -101,9 +101,9 @@ enum {
     int _healthState;
 }
 
--(DeviceInfo*)init:(id<ISktScanDevice>)device name:(NSString*)name type:(long)type;
+-(DeviceInfo*)init:(ISktScanDevice*)device name:(NSString*)name type:(long)type;
 
--(id<ISktScanDevice>) getSktScanDevice;
+-(ISktScanDevice*) getSktScanDevice;
 
 -(void) setNotification:(id)notification;
 -(id) getNotification;
@@ -136,11 +136,12 @@ enum {
 -(NSString*)getPostamble;
 -(void)setPostamble:(NSString*) postamble;
 
--(void) setDecodeData:(id<ISktScanDecodedData>)decodedData;
+-(void) setDecodeData:(ISktScanDecodedData*)decodedData;
+-(void) setDecodedDataInfo:(DecodedDataInfo*)decodedData;
 -(DecodedDataInfo*) getDecodedData;
 
 -(SymbologyInfo*)getSymbologyInfo:(int)index;
--(void)addSymbologyInfo:(id<ISktScanSymbology>)symbologyInfo;
+-(void)addSymbologyInfo:(ISktScanSymbology*)symbologyInfo;
 
 -(int)getSymbologyCount;
 

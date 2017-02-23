@@ -11,7 +11,7 @@
 #import "ISktScanVersion.h"
 #import "ISktScanSymbology.h"
 
-@protocol ISktScanProperty 
+@interface ISktScanProperty : NSObject
 
 -(void)setID:(long)Propid;
 -(long)getID;
@@ -32,8 +32,8 @@
 -(const unsigned char*)getArrayValue;
 -(int)getArraySize;
 
--(id<ISktScanVersion>)Version;
--(id<ISktScanSymbology>)Symbology;
+-(ISktScanVersion*)Version;
+-(ISktScanSymbology*)Symbology;
 
 -(void)setObject:(id)object;
 

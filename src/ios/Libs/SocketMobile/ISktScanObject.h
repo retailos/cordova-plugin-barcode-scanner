@@ -9,9 +9,9 @@
 #import "ISktScanMsg.h"
 #import "ISktScanProperty.h"
 
-@protocol ISktScanObject
+@interface ISktScanObject : NSObject
 
--(id<ISktScanMsg>) Msg;
--(id<ISktScanProperty>) Property;
+-(ISktScanMsg*) Msg;
+-(ISktScanProperty*) Property;
  
 @end

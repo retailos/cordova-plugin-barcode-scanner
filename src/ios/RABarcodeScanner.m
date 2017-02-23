@@ -88,7 +88,7 @@ static float ScannerTimerInterval = 0.5;
     if ([self.delegate respondsToSelector:@selector(scannerFinishedWithResult:)]) {
         [self.delegate scannerFinishedWithResult:resultString ? scanResponse(resultString) : @{}];
     }
-    [self.socketMobileScanner postSetDataConfirmation:device goodData:TRUE Target:nil Response:nil];   
+    [self.socketMobileScanner postSetDataConfirmation:device goodData:resultString ? TRUE : FALSE Target:nil Response:nil]; 
 }
 
 - (void)onError:(SKTRESULT)result {

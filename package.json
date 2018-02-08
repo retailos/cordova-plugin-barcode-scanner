@@ -3,7 +3,7 @@
   "version": "0.0.7",
   "description": "Barcode Scanner",
   "cordova": {
-    "id": "com.redant.barcodescanner",
+    "id": "@redant/cordova-barcode-scanner",
     "platforms": [
       "ios"
     ]

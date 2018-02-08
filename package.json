@@ -1,23 +1,23 @@
 {
-    "name": "@redant/cordova-barcode-scanner",
-    "version": "0.0.6",
-    "description": "Barcode Scanner",
-    "cordova": {
-        "id": "com.redant.barcodescanner",
-        "platforms": [
-                      "ios"
-                      ]
-    },
-    "repository": {
-        "type": "git",
-        "url": "git@bitbucket.org:retailos/cordova-plugin-barcode-scanner.git"
-    },
-    "keywords": [
-                 "cordova",
-                 "scanner",
-                 "ecosystem:cordova",
-                 "cordova-ios"
-                 ],
-    "author": "Red Ant",
-    "license": "Apache 2.0"
+  "name": "@redant/cordova-barcode-scanner",
+  "version": "0.0.7",
+  "description": "Barcode Scanner",
+  "cordova": {
+    "id": "com.redant.barcodescanner",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:retailos/cordova-plugin-barcode-scanner.git"
+  },
+  "keywords": [
+    "cordova",
+    "scanner",
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "author": "Red Ant",
+  "license": "Apache 2.0"
 }
